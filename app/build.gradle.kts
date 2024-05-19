@@ -41,6 +41,9 @@ dependencies {
   implementation(libs.androidx.activity)
   implementation(libs.androidx.constraintlayout)
 
+  // Splash API
+  implementation(libs.androidx.core.splashscreen)
+
   // Firebase
   implementation(platform(libs.firebase.bom))
   implementation(libs.firebase.database)
