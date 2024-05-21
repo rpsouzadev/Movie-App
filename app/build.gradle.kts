@@ -2,6 +2,8 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.jetbrains.kotlin.android)
   id("com.google.gms.google-services")
+  id("com.google.dagger.hilt.android")
+  id("com.google.devtools.ksp")
 }
 
 android {
@@ -53,6 +55,10 @@ dependencies {
   implementation(libs.firebase.database)
   implementation(libs.firebase.storage)
   implementation(libs.firebase.auth)
+
+  // dagger hilt
+  implementation("com.google.dagger:hilt-android:2.48.1")
+  ksp("com.google.dagger:hilt-android-compiler:2.48.1")
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
