@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    android:padding="24dp"
+    android:paddingHorizontal="24dp"
+    android:paddingTop="24dp"
     android:scrollbarThumbVertical="@null"
     tools:context=".presenter.auth.register.RegisterFragment">
 
@@ -52,6 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
+            android:drawableStart="@drawable/ic_email"
             android:hint="@string/text_hint_edit_email_register_fragment"
             android:importantForAutofill="no"
             android:inputType="textEmailAddress"
@@ -65,6 +67,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:drawableStart="@drawable/ic_password_24"
             android:hint="@string/text_hint_edit_password_register_fragment"
             android:importantForAutofill="no"
             android:inputType="textPassword"
@@ -73,7 +76,7 @@
             app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
         <Button
-            android:id="@+id/btn_login"
+            android:id="@+id/btn_register"
             style="@style/ThemePrimaryButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,6 +86,20 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/edit_password" />
+
+        <ImageView
+            android:id="@+id/progress_bar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="16dp"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_register"
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/loading"
+            tools:visibility="visible" />
 
         <View
             android:id="@+id/view"
@@ -99,14 +116,14 @@
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/urbanist_600"
             android:text="@string/text_continue_social_network_register_fragment"
             android:textColor="@color/gray_600"
             android:textSize="18sp"
-            app:layout_constraintEnd_toEndOf="@+id/btn_login"
-            app:layout_constraintStart_toStartOf="@+id/btn_login"
-            app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+            app:layout_constraintEnd_toEndOf="@+id/progress_bar"
+            app:layout_constraintStart_toStartOf="@+id/progress_bar"
+            app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
         <View
             android:layout_width="0dp"
@@ -154,13 +171,15 @@
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp"
             android:fontFamily="@font/urbanist_400"
             android:text="@string/text_already_account_register_fragment"
             android:textColor="@color/gray_500"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/textView4"
             app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_google" />
 
         <TextView
             android:id="@+id/textView4"
