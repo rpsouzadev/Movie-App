@@ -1,11 +1,10 @@
 package com.rpsouza.movieapp.presenter.auth.home
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.rpsouza.movieapp.R
+import androidx.fragment.app.Fragment
 import com.rpsouza.movieapp.databinding.FragmentHomeAuthBinding
 
 class HomeAuthFragment : Fragment() {
