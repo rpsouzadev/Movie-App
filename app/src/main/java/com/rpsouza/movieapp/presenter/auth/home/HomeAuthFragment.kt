@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentHomeAuthBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +21,24 @@ class HomeAuthFragment : Fragment() {
   ): View {
     _binding = FragmentHomeAuthBinding.inflate(inflater, container, false)
     return binding.root
+  }
+
+  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    super.onViewCreated(view, savedInstanceState)
+
+    initListeners()
+  }
+
+  private fun initListeners() {
+    binding.btnLoginWithPassword.setOnClickListener {
+      val action = R.id.action_homeAuthFragment_to_loginFragment
+      findNavController().navigate(action)
+    }
+
+    binding.textBtnRegister.setOnClickListener {
+      val action = R.id.action_homeAuthFragment_to_registerFragment
+      findNavController().navigate(action)
+    }
   }
 
   override fun onDestroy() {

@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentLoginBinding
@@ -38,6 +39,11 @@ class LoginFragment : Fragment() {
   }
 
   private fun initListeners() {
+    binding.textBtnForgot.setOnClickListener {
+      val action = R.id.action_loginFragment_to_forgotFragment
+      findNavController().navigate(action)
+    }
+
     binding.btnLogin.setOnClickListener { validateData() }
 
     Glide
