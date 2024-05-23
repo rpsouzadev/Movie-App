@@ -2,9 +2,10 @@ package com.rpsouza.movieapp.data.repository.auth
 
 import com.google.firebase.auth.FirebaseAuth
 import com.rpsouza.movieapp.domain.repository.auth.FirebaseAuthentication
+import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-class FirebaseAuthenticationImpl(
+class FirebaseAuthenticationImpl @Inject constructor(
   private val firebaseAuth: FirebaseAuth
 ) : FirebaseAuthentication {
 
