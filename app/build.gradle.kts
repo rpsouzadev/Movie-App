@@ -57,8 +57,19 @@ dependencies {
   implementation(libs.firebase.auth)
 
   // dagger hilt
-  implementation("com.google.dagger:hilt-android:2.48.1")
-  ksp("com.google.dagger:hilt-android-compiler:2.48.1")
+  implementation(libs.hilt.android)
+  ksp(libs.hilt.android.compiler)
+
+  // Lifecycle
+  implementation(libs.androidx.lifecycle.viewmodel.ktx)
+  implementation(libs.androidx.lifecycle.livedata.ktx)
+
+  // Navigation
+  implementation(libs.androidx.navigation.fragment.ktx)
+  implementation(libs.androidx.navigation.ui.ktx)
+
+  // https://github.com/bumptech/glide
+  implementation(libs.glide)
 
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
