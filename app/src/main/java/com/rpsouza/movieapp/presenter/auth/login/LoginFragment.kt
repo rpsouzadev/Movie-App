@@ -50,7 +50,7 @@ class LoginFragment : Fragment() {
 
     if (email.isNotEmpty()) {
       if (password.isNotEmpty()) {
-        register(email, password)
+        login(email, password)
       } else {
 
       }
@@ -59,7 +59,7 @@ class LoginFragment : Fragment() {
     }
   }
 
-  private fun register(email: String, password: String) {
+  private fun login(email: String, password: String) {
     loginViewModel.login(email, password).observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
