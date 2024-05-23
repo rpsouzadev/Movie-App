@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentLoginBinding
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.hideKeyboard
+import com.rpsouza.movieapp.utils.isEmailValid
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -48,14 +50,15 @@ class LoginFragment : Fragment() {
     val email = binding.editEmail.text.toString().trim()
     val password = binding.editPassword.text.toString().trim()
 
-    if (email.isNotEmpty()) {
+    if (email.isEmailValid()) {
       if (password.isNotEmpty()) {
+        hideKeyboard()
         login(email, password)
       } else {
 
       }
     } else {
-
+      Toast.makeText(requireContext(), "Preencha um email valido", Toast.LENGTH_SHORT).show()
     }
   }
 

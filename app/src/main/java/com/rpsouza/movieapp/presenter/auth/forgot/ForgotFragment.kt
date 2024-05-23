@@ -12,6 +12,8 @@ import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentForgotBinding
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.hideKeyboard
+import com.rpsouza.movieapp.utils.isEmailValid
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -47,10 +49,11 @@ class ForgotFragment : Fragment() {
   private fun validateData() {
     val email = binding.editEmail.text.toString().trim()
 
-    if (email.isNotEmpty()) {
-        forgot(email)
+    if (email.isEmailValid()) {
+      hideKeyboard()
+      forgot(email)
     } else {
-
+      Toast.makeText(requireContext(), "Preencha um email valido", Toast.LENGTH_SHORT).show()
     }
   }
 
