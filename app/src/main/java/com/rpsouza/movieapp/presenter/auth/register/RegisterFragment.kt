@@ -50,7 +50,7 @@ class RegisterFragment : Fragment() {
 
     if (email.isNotEmpty()) {
       if (password.isNotEmpty()) {
-register(email, password)
+        register(email, password)
       } else {
 
       }
@@ -61,13 +61,15 @@ register(email, password)
 
   private fun register(email: String, password: String) {
     registerViewModel.register(email, password).observe(viewLifecycleOwner) { stateView ->
-      when(stateView) {
+      when (stateView) {
         is StateView.Loading -> {
           binding.progressBar.isVisible = true
         }
+
         is StateView.Success -> {
           Toast.makeText(requireContext(), "Registrado com Sucesso!", Toast.LENGTH_LONG).show()
         }
+
         is StateView.Error -> {
           binding.progressBar.isVisible = false
           Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_LONG).show()
