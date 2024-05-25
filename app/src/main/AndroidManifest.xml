@@ -25,6 +25,10 @@
         <activity
             android:name=".presenter.main.activity.MainActivity"
             android:exported="true" />
+
+        <meta-data
+            android:name="THE_MOVIE_DB_KEY"
+            android:value="${THE_MOVIE_DB_KEY}" />
     </application>
 
 </manifest>

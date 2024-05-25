@@ -8,7 +8,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.ActivityMainBinding
-import com.rpsouza.movieapp.presenter.auth.forgot.ForgotFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
