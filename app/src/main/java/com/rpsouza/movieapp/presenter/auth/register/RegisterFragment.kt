@@ -11,7 +11,7 @@ import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentRegisterBinding
-import com.rpsouza.movieapp.presenter.MainActivity
+import com.rpsouza.movieapp.presenter.main.activity.MainActivity
 import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.hideKeyboard
