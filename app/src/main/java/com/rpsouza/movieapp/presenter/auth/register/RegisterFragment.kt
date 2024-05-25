@@ -1,20 +1,23 @@
 package com.rpsouza.movieapp.presenter.auth.register
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentRegisterBinding
+import com.rpsouza.movieapp.presenter.MainActivity
+import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.isEmailValid
+import com.rpsouza.movieapp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -57,10 +60,10 @@ class RegisterFragment : Fragment() {
         hideKeyboard()
         register(email, password)
       } else {
-
+        showSnackBar(message = R.string.text_password_empty_register_fragment)
       }
     } else {
-      Toast.makeText(requireContext(), "Preencha um email valido", Toast.LENGTH_SHORT).show()
+      showSnackBar(message = R.string.text_email_empty_register_fragment)
     }
   }
 
@@ -72,12 +75,13 @@ class RegisterFragment : Fragment() {
         }
 
         is StateView.Success -> {
-          Toast.makeText(requireContext(), "Registrado com Sucesso!", Toast.LENGTH_LONG).show()
+          startActivity(Intent(requireContext(), MainActivity::class.java))
+          requireActivity().finish()
         }
 
         is StateView.Error -> {
           binding.progressBar.isVisible = false
-          Toast.makeText(requireContext(), stateView.message, Toast.LENGTH_LONG).show()
+          showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
         }
       }
     }

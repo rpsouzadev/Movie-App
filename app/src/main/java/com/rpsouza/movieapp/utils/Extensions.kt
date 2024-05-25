@@ -5,6 +5,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import com.rpsouza.movieapp.R
 
 fun Fragment.initToolbar(toolbar: Toolbar, showIconNavigation: Boolean = true) {
@@ -28,6 +29,13 @@ fun Fragment.hideKeyboard() {
     imm.hideSoftInputFromWindow(view.windowToken, 0)
     view.clearFocus()
   }
+}
+
+fun Fragment.showSnackBar(
+  message: Int,
+  duration: Int = Snackbar.LENGTH_LONG
+) {
+  view?.let { Snackbar.make(it, message, duration).show() }
 }
 
 fun String.isEmailValid(): Boolean {
