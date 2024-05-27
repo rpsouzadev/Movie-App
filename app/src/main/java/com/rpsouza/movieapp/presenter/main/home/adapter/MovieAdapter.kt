@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.databinding.MovieItemBinding
-import com.rpsouza.movieapp.domain.model.Movie
+import com.rpsouza.movieapp.domain.model.movie.Movie
 
 class MovieAdapter(
   private val context: Context
