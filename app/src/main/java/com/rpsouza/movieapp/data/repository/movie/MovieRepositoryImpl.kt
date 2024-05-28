@@ -1,11 +1,8 @@
 package com.rpsouza.movieapp.data.repository.movie
 
 import com.rpsouza.movieapp.data.api.ServiceAPI
-import com.rpsouza.movieapp.data.mapper.toDomain
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
-import com.rpsouza.movieapp.domain.model.gener.Genre
-import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.repository.movie.MovieRepository
 import javax.inject.Inject
 
