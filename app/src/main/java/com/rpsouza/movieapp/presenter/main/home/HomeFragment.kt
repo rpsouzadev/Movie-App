@@ -39,13 +39,13 @@ class HomeFragment : Fragment() {
   private fun getGenreList() {
     homeViewModel.getGenreList().observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
-        is StateView.Loading -> TODO()
+        is StateView.Loading -> {}
         is StateView.Success -> {
           genreMovieAdapter.submitList(stateView.data)
         }
 
         is StateView.Error -> {
-          stateView.message?.let { Log.e("log_error", it) }
+
         }
       }
     }

@@ -26,17 +26,3 @@ class ServiceProvider {
 
   fun <API> createService(apiClass: Class<API>): API = retrofit.create(apiClass)
 }
-
-//.addInterceptor(Interceptor { chain ->
-//  chain.run {
-//    proceed(
-//      request()
-//        .newBuilder()
-//        .addHeader(
-//          name = "Authorization",
-//          value = BuildConfig.THE_MOVIE_DB_KEY
-//        )
-//        .build()
-//    )
-//  }
-//})
