@@ -4,6 +4,7 @@ import com.rpsouza.movieapp.data.model.gener.GenreResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
 import com.rpsouza.movieapp.domain.model.gener.Genre
 import com.rpsouza.movieapp.domain.model.movie.Movie
+import com.rpsouza.movieapp.presenter.model.GenrePresentation
 
 fun GenreResponse.toDomain(): Genre {
   return Genre(
@@ -28,5 +29,13 @@ fun MovieResponse.toDomain(): Movie {
     video = this.video,
     voteAverage = this.voteAverage,
     voteCount = this.voteCount
+  )
+}
+
+fun Genre.toPresentation(): GenrePresentation {
+  return GenrePresentation(
+    id = this.id,
+    name = this.name,
+    movies = emptyList()
   )
 }

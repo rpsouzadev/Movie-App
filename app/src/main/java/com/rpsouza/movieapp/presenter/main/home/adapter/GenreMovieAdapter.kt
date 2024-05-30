@@ -29,7 +29,6 @@ class GenreMovieAdapter :
       ): Boolean {
         return oldItem == newItem
       }
-
     }
   }
 

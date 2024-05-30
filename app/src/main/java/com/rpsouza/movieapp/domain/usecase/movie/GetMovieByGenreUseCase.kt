@@ -9,7 +9,7 @@ class GetMovieByGenreUseCase @Inject constructor(
   private val movieRepository: MovieRepository
 ) {
 
-  suspend operator fun invoke(language: String,  genreId: Int?): List<Movie> {
-    return movieRepository.getMovieByGenre(language, genreId).map { it.toDomain() }
+  suspend operator fun invoke(apiKey: String, language: String,  genreId: Int?): List<Movie> {
+    return movieRepository.getMovieByGenre(apiKey, language, genreId).map { it.toDomain() }
   }
 }

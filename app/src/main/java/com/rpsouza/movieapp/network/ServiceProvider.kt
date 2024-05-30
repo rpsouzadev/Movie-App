@@ -16,22 +16,9 @@ class ServiceProvider {
     .addInterceptor(HttpLoggingInterceptor().apply {
       level = HttpLoggingInterceptor.Level.BODY
     })
-    .addInterceptor(Interceptor { chain ->
-      chain.run {
-        proceed(
-          request()
-            .newBuilder()
-            .addHeader(
-              name = "Authorization",
-              value = BuildConfig.THE_MOVIE_DB_KEY
-            )
-            .build()
-        )
-      }
-    })
     .build()
 
-  private val retrofit: Retrofit = Retrofit.Builder()
+  private val retrofit = Retrofit.Builder()
     .baseUrl(BuildConfig.BASE_URL)
     .addConverterFactory(GsonConverterFactory.create())
     .client(client)
@@ -39,3 +26,17 @@ class ServiceProvider {
 
   fun <API> createService(apiClass: Class<API>): API = retrofit.create(apiClass)
 }
+
+//.addInterceptor(Interceptor { chain ->
+//  chain.run {
+//    proceed(
+//      request()
+//        .newBuilder()
+//        .addHeader(
+//          name = "Authorization",
+//          value = BuildConfig.THE_MOVIE_DB_KEY
+//        )
+//        .build()
+//    )
+//  }
+//})

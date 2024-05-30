@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
 
     NavigationUI.setupWithNavController(binding.bottomNavigationView, navController)
 
-    navController.addOnDestinationChangedListener { controller, destination, arguments ->
+    navController.addOnDestinationChangedListener { _, destination, _ ->
       binding.bottomNavigationView.isVisible =
         destination.id == R.id.menu_home ||
         destination.id == R.id.menu_search ||
