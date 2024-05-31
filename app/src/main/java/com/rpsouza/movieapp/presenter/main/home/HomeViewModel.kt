@@ -25,10 +25,30 @@ class HomeViewModel @Inject constructor(
 
       val genreList = getGenreListUseCase.invoke(
         apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-        Constants.Movie.LANGUAGE
+        language = Constants.Movie.LANGUAGE
       ).map { it.toPresentation() }
 
       emit(StateView.Success(data = genreList))
+    } catch (ex: HttpException) {
+      ex.printStackTrace()
+      emit(StateView.Error(message = ex.message))
+    } catch (ex: Exception) {
+      ex.printStackTrace()
+      emit(StateView.Error(message = ex.message))
+    }
+  }
+
+  fun getMovieByGenreList(genreId: Int?) = liveData(Dispatchers.IO) {
+    try {
+      emit(StateView.Loading())
+
+      val moviesByGenre = getMovieByGenreUseCase.invoke(
+        apiKey = BuildConfig.THE_MOVIE_DB_KEY,
+        language = Constants.Movie.LANGUAGE,
+        genreId = genreId
+      )
+
+      emit(StateView.Success(data = moviesByGenre))
     } catch (ex: HttpException) {
       ex.printStackTrace()
       emit(StateView.Error(message = ex.message))
