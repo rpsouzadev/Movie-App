@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentMovieGenreBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.MovieAdapter
 import com.rpsouza.movieapp.utils.StateView
@@ -40,7 +41,10 @@ class MovieGenreFragment : Fragment() {
   }
 
   private fun initRecycler() {
-    movieAdapter = MovieAdapter(requireContext())
+    movieAdapter = MovieAdapter(
+      context = requireContext(),
+      itemInflater = R.layout.movie_genre_item
+    )
 
     with(binding.recyclerMovies) {
       layoutManager = GridLayoutManager(requireContext(), 2)
@@ -55,6 +59,7 @@ class MovieGenreFragment : Fragment() {
         is StateView.Loading -> {
           binding.progressBar.isVisible = true
         }
+
         is StateView.Success -> {
           binding.progressBar.isVisible = false
           movieAdapter.submitList(stateView.data)

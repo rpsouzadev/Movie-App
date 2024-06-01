@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.GenreItemBinding
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
 
@@ -52,7 +53,10 @@ class GenreMovieAdapter(
       genre.id?.let { seeAllList(it) }
     }
 
-    val movieAdapter = MovieAdapter(holder.binding.root.context)
+    val movieAdapter = MovieAdapter(
+      context = holder.binding.root.context,
+      itemInflater = R.layout.movie_item
+    )
     val layoutManager = LinearLayoutManager(
       holder.binding.root.context,
       LinearLayoutManager.HORIZONTAL,
