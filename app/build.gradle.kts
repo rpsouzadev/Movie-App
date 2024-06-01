@@ -87,6 +87,9 @@ dependencies {
   implementation(libs.okhttp)
   implementation(libs.logging.interceptor)
 
+  // https://github.com/Ferfalk/SimpleSearchView
+  implementation(libs.simplesearchview)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)

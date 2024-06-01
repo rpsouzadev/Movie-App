@@ -64,8 +64,11 @@
     <string name="title_menu_download">Baixar</string>
     <string name="title_menu_profile">Perfil</string>
 
-    // GenderItem
+    <!--    GenderItem-->
     <string name="text_see_all_gender_item">Ver todos</string>
+
+    <!--    MovieGenreFragment-->
+    <string name="text_search_hilt_movie_genre_fragment">Pesquisar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
