@@ -13,7 +13,7 @@ import com.rpsouza.movieapp.databinding.GenreItemBinding
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
 
 class GenreMovieAdapter(
-  private val seeAllList: (Int) -> Unit
+  private val seeAllList: (genreId: Int, genreName: String) -> Unit
 ) : ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
   companion object {
@@ -50,7 +50,7 @@ class GenreMovieAdapter(
     holder.binding.textGenderName.text = genre.name
 
     holder.binding.textSeeAll.setOnClickListener {
-      genre.id?.let { seeAllList(it) }
+      genre.id?.let { seeAllList(it, genre.name ?: "") }
     }
 
     val movieAdapter = MovieAdapter(
