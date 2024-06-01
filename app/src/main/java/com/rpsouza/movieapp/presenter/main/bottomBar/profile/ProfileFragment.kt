@@ -1,4 +1,4 @@
-package com.rpsouza.movieapp.presenter.main.profile
+package com.rpsouza.movieapp.presenter.main.bottomBar.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -1,4 +1,4 @@
-package com.rpsouza.movieapp.presenter.main.home.adapter
+package com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -11,8 +11,9 @@ import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.databinding.GenreItemBinding
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
 
-class GenreMovieAdapter :
-  ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
+class GenreMovieAdapter(
+  private val seeAllList: (Int) -> Unit
+) : ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
   companion object {
     val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GenrePresentation>() {
@@ -46,6 +47,10 @@ class GenreMovieAdapter :
     val genre = getItem(position)
 
     holder.binding.textGenderName.text = genre.name
+
+    holder.binding.textSeeAll.setOnClickListener {
+      genre.id?.let { seeAllList(it) }
+    }
 
     val movieAdapter = MovieAdapter(holder.binding.root.context)
     val layoutManager = LinearLayoutManager(

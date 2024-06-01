@@ -1,4 +1,4 @@
-package com.rpsouza.movieapp.presenter.main.home.adapter
+package com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter
 
 import android.content.Context
 import android.view.LayoutInflater

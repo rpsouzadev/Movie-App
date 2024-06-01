@@ -1,4 +1,4 @@
-package com.rpsouza.movieapp.presenter.main.home
+package com.rpsouza.movieapp.presenter.main.bottomBar.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData

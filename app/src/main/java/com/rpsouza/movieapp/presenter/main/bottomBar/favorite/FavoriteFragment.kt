@@ -1,15 +1,14 @@
-package com.rpsouza.movieapp.presenter.main.download
+package com.rpsouza.movieapp.presenter.main.bottomBar.favorite
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.rpsouza.movieapp.R
-import com.rpsouza.movieapp.databinding.FragmentDownloadBinding
+import androidx.fragment.app.Fragment
+import com.rpsouza.movieapp.databinding.FragmentFavoriteBinding
 
-class DownloadFragment : Fragment() {
-  private var _binding: FragmentDownloadBinding? = null
+class FavoriteFragment : Fragment() {
+  private var _binding: FragmentFavoriteBinding? = null
   private val binding get() = _binding!!
 
   override fun onCreateView(
@@ -17,7 +16,7 @@ class DownloadFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    _binding = FragmentDownloadBinding.inflate(inflater, container, false)
+    _binding = FragmentFavoriteBinding.inflate(inflater, container, false)
     return binding.root
   }
 

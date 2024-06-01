@@ -1,14 +1,15 @@
-package com.rpsouza.movieapp.presenter.main.search
+package com.rpsouza.movieapp.presenter.main.bottomBar.download
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.rpsouza.movieapp.databinding.FragmentSearchBinding
+import com.rpsouza.movieapp.R
+import com.rpsouza.movieapp.databinding.FragmentDownloadBinding
 
-class SearchFragment : Fragment() {
-  private var _binding: FragmentSearchBinding? = null
+class DownloadFragment : Fragment() {
+  private var _binding: FragmentDownloadBinding? = null
   private val binding get() = _binding!!
 
   override fun onCreateView(
@@ -16,7 +17,7 @@ class SearchFragment : Fragment() {
     container: ViewGroup?,
     savedInstanceState: Bundle?
   ): View {
-    _binding = FragmentSearchBinding.inflate(inflater, container, false)
+    _binding = FragmentDownloadBinding.inflate(inflater, container, false)
     return binding.root
   }
 
