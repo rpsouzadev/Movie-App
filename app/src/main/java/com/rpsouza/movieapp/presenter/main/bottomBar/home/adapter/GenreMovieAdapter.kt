@@ -13,7 +13,8 @@ import com.rpsouza.movieapp.databinding.GenreItemBinding
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
 
 class GenreMovieAdapter(
-  private val seeAllList: (genreId: Int, genreName: String) -> Unit
+  private val seeAllList: (genreId: Int, genreName: String) -> Unit,
+  private val movieClickListener: (movieId: Int) -> Unit
 ) : ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
   companion object {
@@ -55,8 +56,10 @@ class GenreMovieAdapter(
 
     val movieAdapter = MovieAdapter(
       context = holder.binding.root.context,
-      itemInflater = R.layout.movie_item
+      itemInflater = R.layout.movie_item,
+      movieClickListener = movieClickListener
     )
+
     val layoutManager = LinearLayoutManager(
       holder.binding.root.context,
       LinearLayoutManager.HORIZONTAL,

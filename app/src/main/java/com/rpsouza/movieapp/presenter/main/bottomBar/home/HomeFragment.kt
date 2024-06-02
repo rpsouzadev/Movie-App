@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.rpsouza.movieapp.MainGraphDirections
 import com.rpsouza.movieapp.databinding.FragmentHomeBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.GenreMovieAdapter
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
@@ -59,7 +60,7 @@ class HomeFragment : Fragment() {
 
   private fun getMovieByGenreList(genreList: List<GenrePresentation>) {
     val genreMutableList = genreList.toMutableList()
-    
+
     genreMutableList.forEachIndexed { index, genre ->
       homeViewModel.getMovieByGenreList(genre.id).observe(viewLifecycleOwner) { stateView ->
         when (stateView) {
@@ -81,10 +82,17 @@ class HomeFragment : Fragment() {
   }
 
   private fun initRecycler() {
-    genreMovieAdapter = GenreMovieAdapter { genreId, genreName  ->
-      val action = HomeFragmentDirections.actionMenuHomeToMovieGenreFragment(genreId, genreName)
-      findNavController().navigate(action)
-    }
+    genreMovieAdapter = GenreMovieAdapter(
+      seeAllList = { genreId, genreName ->
+        val action = HomeFragmentDirections.actionMenuHomeToMovieGenreFragment(genreId, genreName)
+        findNavController().navigate(action)
+      },
+      
+      movieClickListener = { movieId ->
+        val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
+        findNavController().navigate(action)
+      }
+    )
 
     with(binding.recyclerGenre) {
       setHasFixedSize(true)

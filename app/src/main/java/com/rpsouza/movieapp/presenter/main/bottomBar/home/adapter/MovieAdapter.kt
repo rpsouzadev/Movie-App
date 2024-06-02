@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
-import com.rpsouza.movieapp.databinding.MovieItemBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
 
 class MovieAdapter(
   private val context: Context,
-  private val itemInflater: Int
+  private val itemInflater: Int,
+  private val movieClickListener: (movieId: Int) -> Unit
 ) : ListAdapter<Movie, MovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
   companion object {
@@ -44,6 +44,10 @@ class MovieAdapter(
       .with(context)
       .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
       .into(holder.movieImage)
+
+    movie.id?.let { movieId ->
+      holder.itemView.setOnClickListener { movieClickListener(movieId) }
+    }
   }
 
   inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

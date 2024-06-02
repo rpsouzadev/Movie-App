@@ -2,6 +2,8 @@ package com.rpsouza.movieapp.domain.repository.movie
 
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MovieRepository {
 
@@ -18,4 +20,10 @@ interface MovieRepository {
     language: String?,
     query: String
   ): List<MovieResponse>
+
+  suspend fun getMovieDetails(
+    movieId: Int,
+    apiKey: String,
+    language: String?,
+  ): MovieResponse
 }
