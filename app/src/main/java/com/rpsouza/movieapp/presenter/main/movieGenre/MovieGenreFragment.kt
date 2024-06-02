@@ -17,6 +17,7 @@ import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentMovieGenreBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.MovieAdapter
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -68,17 +69,18 @@ class MovieGenreFragment : Fragment() {
   private fun initSearchView() {
     binding.simpleSearchView.setOnQueryTextListener(object : SimpleSearchView.OnQueryTextListener {
       override fun onQueryTextSubmit(query: String): Boolean {
-        Log.d("SimpleSearchView", "Submit:$query")
-        return false
+        hideKeyboard()
+        if (query.isNotEmpty()) {
+          searchMovies(query)
+        }
+        return true
       }
 
       override fun onQueryTextChange(newText: String): Boolean {
-        Log.d("SimpleSearchView", "Text changed:$newText")
         return false
       }
 
       override fun onQueryTextCleared(): Boolean {
-        Log.d("SimpleSearchView", "Text cleared")
         return false
       }
     })
@@ -94,6 +96,27 @@ class MovieGenreFragment : Fragment() {
         is StateView.Success -> {
           binding.progressBar.isVisible = false
           movieAdapter.submitList(stateView.data)
+        }
+
+        is StateView.Error -> {
+          binding.progressBar.isVisible = false
+        }
+      }
+    }
+  }
+
+  private fun searchMovies(query: String) {
+    movieGenreViewModel.searchMovies(query).observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+          binding.recyclerMovies.isVisible = false
+          binding.progressBar.isVisible = true
+        }
+
+        is StateView.Success -> {
+          binding.progressBar.isVisible = false
+          movieAdapter.submitList(stateView.data)
+          binding.recyclerMovies.isVisible = true
         }
 
         is StateView.Error -> {

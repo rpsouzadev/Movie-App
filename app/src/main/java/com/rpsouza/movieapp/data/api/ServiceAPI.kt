@@ -20,4 +20,12 @@ interface ServiceAPI {
     @Query("language") language: String?,
     @Query("with_genres") genreId: Int?,
   ): BasePaginationResponse<List<MovieResponse>>
+
+  @GET("search/movie")
+  suspend fun searchMovies(
+    @Query("api_key") apiKey: String,
+    @Query("language") language: String?,
+    @Query("query") query: String,
+    @Query("include_adult") adult: Boolean = false
+  ): BasePaginationResponse<List<MovieResponse>>
 }
