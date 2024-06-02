@@ -84,18 +84,38 @@ class MovieGenreFragment : Fragment() {
         return false
       }
     })
+
+    binding.simpleSearchView.setOnSearchViewListener(object : SimpleSearchView.SearchViewListener {
+      override fun onSearchViewShown() {
+        Log.d("SimpleSearchView", "onSearchViewShown")
+      }
+
+      override fun onSearchViewClosed() {
+        getMovieByGenreList()
+      }
+
+      override fun onSearchViewShownAnimation() {
+        Log.d("SimpleSearchView", "onSearchViewShownAnimation")
+      }
+
+      override fun onSearchViewClosedAnimation() {
+        Log.d("SimpleSearchView", "onSearchViewClosedAnimation")
+      }
+    })
   }
 
   private fun getMovieByGenreList() {
     movieGenreViewModel.getMovieByGenreList(args.genreId).observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
+          binding.recyclerMovies.isVisible = false
           binding.progressBar.isVisible = true
         }
 
         is StateView.Success -> {
           binding.progressBar.isVisible = false
           movieAdapter.submitList(stateView.data)
+          binding.recyclerMovies.isVisible = true
         }
 
         is StateView.Error -> {
