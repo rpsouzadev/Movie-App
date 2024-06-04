@@ -10,9 +10,11 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.databinding.FragmentMovieDetailsBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
+import com.rpsouza.movieapp.utils.FormatDate
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Locale
 
 @AndroidEntryPoint
 class MovieDetailsFragment : Fragment() {
@@ -63,6 +65,11 @@ class MovieDetailsFragment : Fragment() {
       .into(binding.imageMovie)
 
     binding.textTitleMovie.text = movie.title
+
+    binding.textVoteAverage.text = String.format(Locale.getDefault(), "%.1f", movie.voteAverage)
+    binding.textReleaseDate.text = FormatDate.yearFormat(movie.releaseDate ?: "")
+    binding.textProductionCountry.text = movie.productionCountries?.get(0)?.name
+    binding.textOriginalTitle.text = movie.originalTitle
   }
 
   override fun onDestroy() {
