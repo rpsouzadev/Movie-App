@@ -7,9 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.databinding.FragmentMovieDetailsBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -31,6 +33,8 @@ class MovieDetailsFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     getMovieDetails()
+
+    initToolbar(toolbar = binding.toolbar, lightIcon = true)
   }
 
   private fun getMovieDetails() {
@@ -53,7 +57,12 @@ class MovieDetailsFragment : Fragment() {
   }
 
   private fun configData(movie: Movie) {
+    Glide
+      .with(requireContext())
+      .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+      .into(binding.imageMovie)
 
+    binding.textTitleMovie.text = movie.title
   }
 
   override fun onDestroy() {
