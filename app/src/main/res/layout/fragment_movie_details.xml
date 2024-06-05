@@ -86,6 +86,7 @@
                 tools:ignore="ContentDescription" />
 
             <HorizontalScrollView
+                android:id="@+id/horizontalScrollView"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -170,7 +171,39 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_play"
+                style="@style/ThemePrimaryButton"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                app:icon="@drawable/ic_play"
+                app:iconGravity="textStart"
+                android:text="@string/text_button_play_movie_details_fragment"
+                app:layout_constraintEnd_toStartOf="@+id/btn_download"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintHorizontal_chainStyle="spread_inside"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_download"
+                style="@style/ThemeSecondaryButton"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:text="@string/text_button_download_movie_details_fragment"
+                app:backgroundTint="@null"
+                app:icon="@drawable/ic_download_fill"
+                app:iconGravity="textStart"
+                app:iconTint="@color/color_default"
+                app:layout_constraintBottom_toBottomOf="@+id/btn_play"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btn_play"
+                app:layout_constraintTop_toTopOf="@+id/btn_play" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

@@ -70,6 +70,10 @@
     <!--    MovieGenreFragment-->
     <string name="text_search_hilt_movie_genre_fragment">Pesquisar</string>
 
+    <!--    MovieDetailsFragment-->
+    <string name="text_button_play_movie_details_fragment">Assistir</string>
+    <string name="text_button_download_movie_details_fragment">Download</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
