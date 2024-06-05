@@ -9,7 +9,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/image_movie"
@@ -178,9 +178,9 @@
                 android:layout_height="38dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
+                android:text="@string/text_button_play_movie_details_fragment"
                 app:icon="@drawable/ic_play"
                 app:iconGravity="textStart"
-                android:text="@string/text_button_play_movie_details_fragment"
                 app:layout_constraintEnd_toStartOf="@+id/btn_download"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -202,6 +202,21 @@
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/btn_play"
                 app:layout_constraintTop_toTopOf="@+id/btn_play" />
+
+            <TextView
+                android:id="@+id/text_genres"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/urbanist_500"
+                android:maxLines="1"
+                android:textColor="@color/text_primary"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btn_play"
+                tools:text="Genre: Action, Superhero, Science Fiction, Romance, Thriller, ..." />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

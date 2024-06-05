@@ -1,15 +1,14 @@
 package com.rpsouza.movieapp.data.model.movie
 
 import com.google.gson.annotations.SerializedName
+import com.rpsouza.movieapp.data.model.gener.GenreResponse
 
 data class MovieResponse(
     val adult: Boolean?,
 
     @SerializedName("backdrop_path")
     val backdropPath: String?,
-
-    @SerializedName("genre_ids")
-    val genreIds: List<Int>?,
+    val genres: List<GenreResponse>?,
     val id: Int?,
 
     @SerializedName("original_language")

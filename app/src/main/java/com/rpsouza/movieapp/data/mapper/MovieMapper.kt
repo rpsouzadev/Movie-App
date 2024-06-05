@@ -19,7 +19,7 @@ fun MovieResponse.toDomain(): Movie {
   return Movie(
     adult = this.adult,
     backdropPath = this.backdropPath,
-    genreIds = this.genreIds,
+    genres = this.genres?.map { it.toDomain() },
     id = this.id,
     originalLanguage = this.originalLanguage,
     originalTitle = this.originalTitle,
