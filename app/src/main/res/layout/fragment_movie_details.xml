@@ -217,6 +217,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_play"
                 tools:text="Genre: Action, Superhero, Science Fiction, Romance, Thriller, ..." />
+
+            <TextView
+                android:id="@+id/text_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/urbanist_500"
+                android:maxLines="3"
+                android:textColor="@color/gray_800"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_genres"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis vulputate diam. Donec pellentesque luctus urna quis varius. Duis volutpat malesuada condimentum. Sed hendrerit, sapien sit amet dignissim maximus, risus nisl maximus leo" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

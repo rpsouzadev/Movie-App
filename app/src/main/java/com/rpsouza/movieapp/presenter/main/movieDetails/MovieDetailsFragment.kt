@@ -74,6 +74,8 @@ class MovieDetailsFragment : Fragment() {
 
     val genres = movie.genres?.map { it.name }?.joinToString()
     binding.textGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
+
+    binding.textDescription.text = movie.overview
   }
 
   override fun onDestroy() {
