@@ -1,6 +1,7 @@
 package com.rpsouza.movieapp.data.api
 
 import com.rpsouza.movieapp.data.model.basePagination.BasePaginationResponse
+import com.rpsouza.movieapp.data.model.credits.CreditsResponse
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
 import retrofit2.http.GET
@@ -36,4 +37,11 @@ interface ServiceAPI {
     @Query("api_key") apiKey: String,
     @Query("language") language: String?,
   ): MovieResponse
+
+  @GET("movie/{movie_id}/credits")
+  suspend fun getCredits(
+    @Path("movie_id") movieId: Int,
+    @Query("api_key") apiKey: String,
+    @Query("language") language: String?,
+  ): CreditsResponse
 }

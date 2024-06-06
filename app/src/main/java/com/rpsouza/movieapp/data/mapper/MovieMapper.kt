@@ -1,8 +1,10 @@
 package com.rpsouza.movieapp.data.mapper
 
+import com.rpsouza.movieapp.data.model.cast.CastResponse
 import com.rpsouza.movieapp.data.model.gener.GenreResponse
 import com.rpsouza.movieapp.data.model.movie.CountryResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
+import com.rpsouza.movieapp.domain.model.cast.Cast
 import com.rpsouza.movieapp.domain.model.gener.Genre
 import com.rpsouza.movieapp.domain.model.movie.Country
 import com.rpsouza.movieapp.domain.model.movie.Movie
@@ -45,4 +47,21 @@ fun Genre.toPresentation(): GenrePresentation {
 
 fun CountryResponse.toDomain(): Country {
   return Country(name = this.name)
+}
+
+fun CastResponse.toDomain(): Cast {
+  return Cast(
+    adult = this.adult,
+    castId = this.castId,
+    character = this.character,
+    creditId = this.creditId,
+    gender = this.gender,
+    id = this.id,
+    knownForDepartment = this.knownForDepartment,
+    name = this.name,
+    order =this.order,
+    originalName = this.originalName,
+    popularity = this.popularity,
+    profilePath = this.profilePath,
+  )
 }

@@ -1,6 +1,7 @@
 package com.rpsouza.movieapp.data.repository.movie
 
 import com.rpsouza.movieapp.data.api.ServiceAPI
+import com.rpsouza.movieapp.data.model.cast.CastResponse
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
 import com.rpsouza.movieapp.domain.repository.movie.MovieRepository
@@ -48,5 +49,17 @@ class MovieRepositoryImpl @Inject constructor(
       apiKey = apiKey,
       language = language,
     )
+  }
+
+  override suspend fun getCredits(
+    movieId: Int,
+    apiKey: String,
+    language: String?
+  ): List<CastResponse> {
+    return serviceAPI.getCredits(
+      movieId = movieId,
+      apiKey = apiKey,
+      language = language,
+    ).cast
   }
 }

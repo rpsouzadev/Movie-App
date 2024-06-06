@@ -1,5 +1,7 @@
 package com.rpsouza.movieapp.domain.repository.movie
 
+import com.rpsouza.movieapp.data.model.cast.CastResponse
+import com.rpsouza.movieapp.data.model.credits.CreditsResponse
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
 import retrofit2.http.Path
@@ -26,4 +28,10 @@ interface MovieRepository {
     apiKey: String,
     language: String?,
   ): MovieResponse
+
+  suspend fun getCredits(
+    movieId: Int,
+    apiKey: String,
+    language: String?,
+  ): List<CastResponse>
 }
