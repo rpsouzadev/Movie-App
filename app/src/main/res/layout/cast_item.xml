@@ -8,10 +8,10 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="46dp"
+        android:layout_height="46dp"
         android:elevation="0dp"
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="23dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -32,7 +32,7 @@
         android:layout_marginStart="12dp"
         android:fontFamily="@font/urbanist_600"
         android:textColor="@color/text_primary"
-        android:textSize="11sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cardView"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,10 +44,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="@font/urbanist_400"
-        tools:text="Dominic Toreto"
         android:textColor="@color/gray_600"
-        android:textSize="11sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView" />
+        app:layout_constraintStart_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/text_cast_name"
+        tools:text="Dominic Toreto" />
 </androidx.constraintlayout.widget.ConstraintLayout>

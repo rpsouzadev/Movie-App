@@ -74,9 +74,7 @@
     <string name="text_button_play_movie_details_fragment">Assistir</string>
     <string name="text_button_download_movie_details_fragment">Download</string>
     <string name="text_all_genres_movie_details_fragment">Gênero: %1$s</string>
-
-    <!--    CastItem-->
-    <string name="text_cast_item">Elenco</string>
+    <string name="text_cast_movie_details_fragment">Elenco:</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -7,10 +7,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentMovieDetailsBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
+import com.rpsouza.movieapp.presenter.main.movieDetails.adapter.CastAdapter
 import com.rpsouza.movieapp.utils.FormatDate
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.initToolbar
@@ -24,6 +26,7 @@ class MovieDetailsFragment : Fragment() {
 
   private val movieDetailsViewModel: MovieDetailsViewModel by viewModels()
   private val args: MovieDetailsFragmentArgs by navArgs()
+  private lateinit var castAdapter: CastAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater, container: ViewGroup?,
@@ -35,9 +38,10 @@ class MovieDetailsFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    getMovieDetails()
 
     initToolbar(toolbar = binding.toolbar, lightIcon = true)
+    initRecyclerCast()
+    getMovieDetails()
   }
 
   private fun getMovieDetails() {
@@ -67,6 +71,7 @@ class MovieDetailsFragment : Fragment() {
         }
 
         is StateView.Success -> {
+          stateView.data?.let { castAdapter.submitList(it) }
 //          binding.progressBar.isVisible = false
         }
 
@@ -94,6 +99,19 @@ class MovieDetailsFragment : Fragment() {
     binding.textGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
 
     binding.textDescription.text = movie.overview
+
+    getCredits()
+  }
+
+  private fun initRecyclerCast() {
+castAdapter = CastAdapter(requireContext())
+
+    with(binding.rvCast) {
+      layoutManager = LinearLayoutManager(
+        requireContext(), LinearLayoutManager.HORIZONTAL, false
+      )
+      adapter = castAdapter
+    }
   }
 
   override fun onDestroy() {
