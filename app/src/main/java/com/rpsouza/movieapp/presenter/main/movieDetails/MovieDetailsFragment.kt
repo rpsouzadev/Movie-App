@@ -59,6 +59,24 @@ class MovieDetailsFragment : Fragment() {
     }
   }
 
+  private fun getCredits() {
+    movieDetailsViewModel.getCredits(args.movieId).observe(viewLifecycleOwner) { stateView ->
+      when (stateView) {
+        is StateView.Loading -> {
+//          binding.progressBar.isVisible = true
+        }
+
+        is StateView.Success -> {
+//          binding.progressBar.isVisible = false
+        }
+
+        is StateView.Error -> {
+//          binding.progressBar.isVisible = false
+        }
+      }
+    }
+  }
+
   private fun configData(movie: Movie) {
     Glide
       .with(requireContext())

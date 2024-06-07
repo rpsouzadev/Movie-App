@@ -1,8 +1,10 @@
 package com.rpsouza.movieapp.di
 
 import com.rpsouza.movieapp.data.repository.auth.FirebaseAuthenticationImpl
+import com.rpsouza.movieapp.data.repository.movie.MovieDetailsRepositoryImpl
 import com.rpsouza.movieapp.data.repository.movie.MovieRepositoryImpl
 import com.rpsouza.movieapp.domain.repository.auth.FirebaseAuthentication
+import com.rpsouza.movieapp.domain.repository.movie.MovieDetailsRepository
 import com.rpsouza.movieapp.domain.repository.movie.MovieRepository
 import dagger.Binds
 import dagger.Module
@@ -22,4 +24,9 @@ abstract class DomainModule {
   abstract fun bindsMovieRepositoryImpl(
     movieRepositoryImpl: MovieRepositoryImpl
   ): MovieRepository
+
+  @Binds
+  abstract fun bindsMovieDetailsRepositoryImpl(
+    movieDetailsRepositoryImpl: MovieDetailsRepositoryImpl
+  ): MovieDetailsRepository
 }

@@ -22,16 +22,4 @@ interface MovieRepository {
     language: String?,
     query: String
   ): List<MovieResponse>
-
-  suspend fun getMovieDetails(
-    movieId: Int,
-    apiKey: String,
-    language: String?,
-  ): MovieResponse
-
-  suspend fun getCredits(
-    movieId: Int,
-    apiKey: String,
-    language: String?,
-  ): List<CastResponse>
 }
