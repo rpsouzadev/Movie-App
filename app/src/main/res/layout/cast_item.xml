@@ -39,11 +39,12 @@
         tools:text="Vin Diesel" />
 
     <TextView
+        android:id="@+id/text_character"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="12dp"
         android:fontFamily="@font/urbanist_400"
-        android:text="@string/text_cast_item"
+        tools:text="Dominic Toreto"
         android:textColor="@color/gray_600"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
