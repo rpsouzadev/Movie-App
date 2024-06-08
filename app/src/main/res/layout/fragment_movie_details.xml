@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -48,11 +48,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/image_movie">
+            android:clipToPadding="false"
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/text_title_movie"
@@ -240,28 +237,37 @@
                 app:layout_constraintTop_toBottomOf="@+id/text_genres"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce quis vulputate diam. Donec pellentesque luctus urna quis varius. Duis volutpat malesuada condimentum. Sed hendrerit, sapien sit amet dignissim maximus, risus nisl maximus leo" />
 
-            <TextView
-                android:id="@+id/text_cast"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/urbanist_400"
-                android:text="@string/text_cast_movie_details_fragment"
-                android:textColor="@color/text_primary"
-                android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_description" />
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_cast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_cast"
+                app:layout_constraintTop_toBottomOf="@+id/text_description"
                 tools:itemCount="1"
                 tools:listitem="@layout/cast_item" />
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:tabTextAppearance="@style/CustomTabLayout"
+                android:background="@android:color/transparent"
+                android:elevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_cast" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/view_pager"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
