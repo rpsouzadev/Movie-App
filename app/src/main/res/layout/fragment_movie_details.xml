@@ -253,12 +253,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:tabTextAppearance="@style/CustomTabLayout"
                 android:background="@android:color/transparent"
                 android:elevation="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rv_cast" />
+                app:layout_constraintTop_toBottomOf="@+id/rv_cast"
+                app:tabIndicator="@drawable/tab_indicator"
+                app:tabSelectedTextColor="@color/color_default"
+                app:tabTextAppearance="@style/CustomTabLayout"
+                app:tabTextColor="@color/gray_500" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/view_pager"
