@@ -9,7 +9,7 @@ import com.rpsouza.movieapp.domain.repository.movie.MovieRepository
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-abstract class MovieDetailsRepositoryImpl @Inject constructor(
+class MovieDetailsRepositoryImpl @Inject constructor(
     private val serviceAPI: ServiceAPI
 ) : MovieDetailsRepository {
     override suspend fun getMovieDetails(
