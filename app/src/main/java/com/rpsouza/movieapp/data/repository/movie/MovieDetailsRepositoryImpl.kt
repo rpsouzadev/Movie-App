@@ -9,30 +9,42 @@ import com.rpsouza.movieapp.domain.repository.movie.MovieRepository
 import javax.inject.Inject
 import kotlin.coroutines.suspendCoroutine
 
-class MovieDetailsRepositoryImpl @Inject constructor(
-  private val serviceAPI: ServiceAPI
+abstract class MovieDetailsRepositoryImpl @Inject constructor(
+    private val serviceAPI: ServiceAPI
 ) : MovieDetailsRepository {
-  override suspend fun getMovieDetails(
-    movieId: Int,
-    apiKey: String,
-    language: String?
-  ): MovieResponse {
-    return serviceAPI.getMovieDetails(
-      movieId = movieId,
-      apiKey = apiKey,
-      language = language,
-    )
-  }
+    override suspend fun getMovieDetails(
+        movieId: Int,
+        apiKey: String,
+        language: String?
+    ): MovieResponse {
+        return serviceAPI.getMovieDetails(
+            movieId = movieId,
+            apiKey = apiKey,
+            language = language,
+        )
+    }
 
-  override suspend fun getCredits(
-    movieId: Int,
-    apiKey: String,
-    language: String?
-  ): List<CastResponse> {
-    return serviceAPI.getCredits(
-      movieId = movieId,
-      apiKey = apiKey,
-      language = language,
-    ).cast
-  }
+    override suspend fun getCredits(
+        movieId: Int,
+        apiKey: String,
+        language: String?
+    ): List<CastResponse> {
+        return serviceAPI.getCredits(
+            movieId = movieId,
+            apiKey = apiKey,
+            language = language,
+        ).cast
+    }
+
+    override suspend fun getMoviesSimilar(
+        movieId: Int,
+        apiKey: String,
+        language: String?
+    ): List<MovieResponse> {
+        return serviceAPI.getMoviesSimilar(
+            movieId = movieId,
+            apiKey = apiKey,
+            language = language,
+        ).results ?: emptyList()
+    }
 }
