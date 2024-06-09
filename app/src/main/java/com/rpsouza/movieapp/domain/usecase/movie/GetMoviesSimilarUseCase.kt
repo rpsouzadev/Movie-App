@@ -15,6 +15,6 @@ class GetMoviesSimilarUseCase @Inject constructor(
             movieId = movieId,
             apiKey = apiKey,
             language = language,
-        ).map { it.toDomain() }
+        ).map { it.toDomain() }.filter { it.posterPath != null }
     }
 }
