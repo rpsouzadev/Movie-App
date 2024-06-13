@@ -42,7 +42,7 @@ class MovieAdapter(
 
     Glide
       .with(context)
-      .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+      .load(movie.posterPath)
       .into(holder.movieImage)
 
     movie.id?.let { movieId ->

@@ -15,78 +15,78 @@ import com.rpsouza.movieapp.domain.model.review.MovieReview
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
 
 fun GenreResponse.toDomain(): Genre {
-    return Genre(
-        id = this.id,
-        name = this.name
-    )
+  return Genre(
+    id = this.id,
+    name = this.name
+  )
 }
 
 fun MovieResponse.toDomain(): Movie {
-    return Movie(
-        adult = this.adult,
-        backdropPath = this.backdropPath,
-        genres = this.genres?.map { it.toDomain() },
-        id = this.id,
-        originalLanguage = this.originalLanguage,
-        originalTitle = this.originalTitle,
-        overview = this.overview,
-        popularity = this.popularity,
-        posterPath = this.posterPath,
-        releaseDate = this.releaseDate,
-        title = this.title,
-        video = this.video,
-        voteAverage = this.voteAverage,
-        voteCount = this.voteCount,
-        productionCountries = this.productionCountries?.map { it.toDomain() }
-    )
+  return Movie(
+    adult = this.adult,
+    backdropPath = this.backdropPath,
+    genres = this.genres?.map { it.toDomain() },
+    id = this.id,
+    originalLanguage = this.originalLanguage,
+    originalTitle = this.originalTitle,
+    overview = this.overview,
+    popularity = this.popularity,
+    posterPath = "https://image.tmdb.org/t/p/w500${this.posterPath}",
+    releaseDate = this.releaseDate,
+    title = this.title,
+    video = this.video,
+    voteAverage = this.voteAverage,
+    voteCount = this.voteCount,
+    productionCountries = this.productionCountries?.map { it.toDomain() }
+  )
 }
 
 fun Genre.toPresentation(): GenrePresentation {
-    return GenrePresentation(
-        id = this.id,
-        name = this.name,
-        movies = emptyList()
-    )
+  return GenrePresentation(
+    id = this.id,
+    name = this.name,
+    movies = emptyList()
+  )
 }
 
 fun CountryResponse.toDomain(): Country {
-    return Country(name = this.name)
+  return Country(name = this.name)
 }
 
 fun CastResponse.toDomain(): Cast {
-    return Cast(
-        adult = this.adult,
-        castId = this.castId,
-        character = this.character,
-        creditId = this.creditId,
-        gender = this.gender,
-        id = this.id,
-        knownForDepartment = this.knownForDepartment,
-        name = this.name,
-        order = this.order,
-        originalName = this.originalName,
-        popularity = this.popularity,
-        profilePath = this.profilePath,
-    )
+  return Cast(
+    adult = this.adult,
+    castId = this.castId,
+    character = this.character,
+    creditId = this.creditId,
+    gender = this.gender,
+    id = this.id,
+    knownForDepartment = this.knownForDepartment,
+    name = this.name,
+    order = this.order,
+    originalName = this.originalName,
+    popularity = this.popularity,
+    profilePath = this.profilePath,
+  )
 }
 
 fun MovieReviewResponse.toDomain(): MovieReview {
-    return MovieReview(
-        author = this.author,
-        authorDetails = this.authorDetails?.toDomain(),
-        content = this.content,
-        createdAt = this.createdAt,
-        id = this.id,
-        updatedAt = this.updatedAt,
-        url = this.url
-    )
+  return MovieReview(
+    author = this.author,
+    authorDetails = this.authorDetails?.toDomain(),
+    content = this.content,
+    createdAt = this.createdAt,
+    id = this.id,
+    updatedAt = this.updatedAt,
+    url = this.url
+  )
 }
 
 fun AuthorDetailsResponse.toDomain(): AuthorDetails {
-    return AuthorDetails(
-        avatarPath = this.avatarPath,
-        username = this.username,
-        name = this.name,
-        rating = this.rating
-    )
+  return AuthorDetails(
+    avatarPath = "https://image.tmdb.org/t/p/w500${this.avatarPath}",
+    username = this.username,
+    name = this.name,
+    rating = this.rating
+  )
 }
