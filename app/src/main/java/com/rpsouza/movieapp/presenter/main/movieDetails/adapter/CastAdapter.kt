@@ -43,7 +43,7 @@ class CastAdapter(
 
     Glide
       .with(context)
-      .load("https://image.tmdb.org/t/p/w500${cast?.profilePath}")
+      .load(cast?.profilePath)
       .into(holder.binding.castImage)
 
     holder.binding.textCastName.text = cast?.name

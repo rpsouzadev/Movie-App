@@ -66,7 +66,7 @@ fun CastResponse.toDomain(): Cast {
     order = this.order,
     originalName = this.originalName,
     popularity = this.popularity,
-    profilePath = this.profilePath,
+    profilePath = "https://image.tmdb.org/t/p/w500${this.profilePath}",
   )
 }
 
