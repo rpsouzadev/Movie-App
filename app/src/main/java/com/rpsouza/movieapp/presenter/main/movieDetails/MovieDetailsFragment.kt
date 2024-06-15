@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
@@ -21,6 +20,7 @@ import com.rpsouza.movieapp.presenter.main.movieDetails.tabs.similar.SimilarFrag
 import com.rpsouza.movieapp.presenter.main.movieDetails.tabs.trailers.TrailersFragment
 import com.rpsouza.movieapp.utils.FormatDate
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.ViewPager2ViewHeightAnimator
 import com.rpsouza.movieapp.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -55,7 +55,10 @@ class MovieDetailsFragment : Fragment() {
         movieDetailsViewModel.setMovieId(movieId = args.movieId)
 
         val viewPagerAdapter = ViewPagerAdapter(requireActivity())
-        binding.viewPager.adapter = viewPagerAdapter
+        val viewPager = ViewPager2ViewHeightAnimator()
+
+        viewPager.viewPager2 = binding.viewPager
+        viewPager.viewPager2?.adapter = viewPagerAdapter
 
         viewPagerAdapter.addFragment(
             fragment = TrailersFragment(),
@@ -74,12 +77,14 @@ class MovieDetailsFragment : Fragment() {
 
         binding.viewPager.offscreenPageLimit = viewPagerAdapter.itemCount
 
-        TabLayoutMediator(
-            binding.tabLayout,
-            binding.viewPager,
-        ) { tab, position ->
-            tab.text = getString(viewPagerAdapter.getTitle(position))
-        }.attach()
+        viewPager.viewPager2?.let { viewPager2  ->
+            TabLayoutMediator(
+                binding.tabLayout,
+                viewPager2,
+            ) { tab, position ->
+                tab.text = getString(viewPagerAdapter.getTitle(position))
+            }.attach()
+        }
     }
 
     private fun getMovieDetails() {
