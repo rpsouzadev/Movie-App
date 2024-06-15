@@ -84,7 +84,7 @@ fun MovieReviewResponse.toDomain(): MovieReview {
 
 fun AuthorDetailsResponse.toDomain(): AuthorDetails {
   return AuthorDetails(
-    avatarPath = "https://image.tmdb.org/t/p/w500${this.avatarPath}",
+    avatarPath = this.avatarPath,
     username = this.username,
     name = this.name,
     rating = this.rating

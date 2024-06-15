@@ -4,6 +4,7 @@ import com.rpsouza.movieapp.data.model.basePagination.BasePaginationResponse
 import com.rpsouza.movieapp.data.model.credits.CreditsResponse
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
+import com.rpsouza.movieapp.data.model.review.MovieReviewResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -51,4 +52,10 @@ interface ServiceAPI {
     @Query("api_key") apiKey: String,
     @Query("language") language: String?,
   ): BasePaginationResponse<List<MovieResponse>>
+
+  @GET("movie/{movie_id}/reviews")
+  suspend fun getReviews(
+    @Path("movie_id") movieId: Int,
+    @Query("api_key") apiKey: String,
+  ): BasePaginationResponse<List<MovieReviewResponse>>
 }

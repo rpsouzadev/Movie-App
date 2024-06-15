@@ -4,6 +4,7 @@ import com.rpsouza.movieapp.data.api.ServiceAPI
 import com.rpsouza.movieapp.data.model.cast.CastResponse
 import com.rpsouza.movieapp.data.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
+import com.rpsouza.movieapp.data.model.review.MovieReviewResponse
 import com.rpsouza.movieapp.domain.repository.movie.MovieDetailsRepository
 import com.rpsouza.movieapp.domain.repository.movie.MovieRepository
 import javax.inject.Inject
@@ -45,6 +46,16 @@ class MovieDetailsRepositoryImpl @Inject constructor(
             movieId = movieId,
             apiKey = apiKey,
             language = language,
+        ).results ?: emptyList()
+    }
+
+    override suspend fun getReviews(
+        movieId: Int,
+        apiKey: String,
+    ): List<MovieReviewResponse> {
+        return serviceAPI.getReviews(
+            movieId = movieId,
+            apiKey = apiKey,
         ).results ?: emptyList()
     }
 }

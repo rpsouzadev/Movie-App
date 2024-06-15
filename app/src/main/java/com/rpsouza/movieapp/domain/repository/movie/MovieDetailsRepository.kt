@@ -2,6 +2,7 @@ package com.rpsouza.movieapp.domain.repository.movie
 
 import com.rpsouza.movieapp.data.model.cast.CastResponse
 import com.rpsouza.movieapp.data.model.movie.MovieResponse
+import com.rpsouza.movieapp.data.model.review.MovieReviewResponse
 
 interface MovieDetailsRepository {
   suspend fun getMovieDetails(
@@ -21,4 +22,9 @@ interface MovieDetailsRepository {
     apiKey: String,
     language: String?,
   ): List<MovieResponse>
+
+  suspend fun getReviews(
+    movieId: Int,
+    apiKey: String,
+  ): List<MovieReviewResponse>
 }
