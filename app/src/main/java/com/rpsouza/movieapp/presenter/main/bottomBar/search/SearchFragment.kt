@@ -39,6 +39,12 @@ class SearchFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     initRecycler()
     initSearchView()
+    initObservers()
+  }
+
+  private fun initObservers() {
+    initStateObserver()
+    searchObserver()
   }
 
   private fun initRecycler() {
@@ -64,7 +70,7 @@ class SearchFragment : Fragment() {
       override fun onQueryTextSubmit(query: String): Boolean {
         hideKeyboard()
         if (query.isNotEmpty()) {
-          searchMovies(query)
+          searchViewModel.searchMovies(query)
         }
         return true
       }
@@ -75,8 +81,8 @@ class SearchFragment : Fragment() {
     })
   }
 
-  private fun searchMovies(query: String) {
-    searchViewModel.searchMovies(query).observe(viewLifecycleOwner) { stateView ->
+  private fun initStateObserver() {
+    searchViewModel.searchState.observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
           binding.recyclerMovies.isVisible = false
@@ -85,7 +91,6 @@ class SearchFragment : Fragment() {
 
         is StateView.Success -> {
           binding.progressBar.isVisible = false
-          movieAdapter.submitList(stateView.data)
           binding.recyclerMovies.isVisible = true
         }
 
@@ -93,6 +98,12 @@ class SearchFragment : Fragment() {
           binding.progressBar.isVisible = false
         }
       }
+    }
+  }
+
+  private fun searchObserver() {
+    searchViewModel.movieList.observe(viewLifecycleOwner) { movieList ->
+      movieAdapter.submitList(movieList)
     }
   }
 

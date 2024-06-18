@@ -1,13 +1,16 @@
 package com.rpsouza.movieapp.presenter.main.bottomBar.search
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.rpsouza.movieapp.BuildConfig
+import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.usecase.movie.SearchMoviesUseCase
 import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -15,24 +18,32 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val searchMoviesUseCase: SearchMoviesUseCase
 ) : ViewModel() {
+    private val _movieList = MutableLiveData<List<Movie>>()
+    val movieList: LiveData<List<Movie>> get() = _movieList
 
-    fun searchMovies(query: String) = liveData(Dispatchers.IO) {
-        try {
-            emit(StateView.Loading())
+    private val _searchState = MutableLiveData<StateView<Unit>>()
+    val searchState: LiveData<StateView<Unit>> get() = _searchState
 
-            val movieList = searchMoviesUseCase.invoke(
-                apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-                language = Constants.Movie.LANGUAGE,
-                query = query
-            )
+    fun searchMovies(query: String) {
+        viewModelScope.launch {
+            try {
+                _searchState.postValue(StateView.Loading())
 
-            emit(StateView.Success(data = movieList))
-        } catch (ex: HttpException) {
-            ex.printStackTrace()
-            emit(StateView.Error(message = ex.message))
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            emit(StateView.Error(message = ex.message))
+                val movies = searchMoviesUseCase(
+                    apiKey = BuildConfig.THE_MOVIE_DB_KEY,
+                    language = Constants.Movie.LANGUAGE,
+                    query = query
+                )
+
+                _movieList.postValue(movies)
+                _searchState.postValue(StateView.Success(Unit))
+            } catch (ex: HttpException) {
+                ex.printStackTrace()
+                _searchState.postValue(StateView.Error(message = ex.message))
+            } catch (ex: Exception) {
+                ex.printStackTrace()
+                _searchState.postValue(StateView.Error(message = ex.message))
+            }
         }
     }
 }
