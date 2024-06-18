@@ -85,6 +85,7 @@ class SearchFragment : Fragment() {
     searchViewModel.searchState.observe(viewLifecycleOwner) { stateView ->
       when (stateView) {
         is StateView.Loading -> {
+          binding.layoutEmpty.isVisible = false
           binding.recyclerMovies.isVisible = false
           binding.progressBar.isVisible = true
         }
@@ -104,7 +105,13 @@ class SearchFragment : Fragment() {
   private fun searchObserver() {
     searchViewModel.movieList.observe(viewLifecycleOwner) { movieList ->
       movieAdapter.submitList(movieList)
+      emptyState(emptyList = movieList.isEmpty())
     }
+  }
+
+  private fun emptyState(emptyList: Boolean) {
+    binding.recyclerMovies.isVisible = !emptyList
+    binding.layoutEmpty.isVisible = emptyList
   }
 
   override fun onDestroyView() {
