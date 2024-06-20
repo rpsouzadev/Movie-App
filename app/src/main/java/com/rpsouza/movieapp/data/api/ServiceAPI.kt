@@ -1,10 +1,10 @@
 package com.rpsouza.movieapp.data.api
 
-import com.rpsouza.movieapp.data.model.basePagination.BasePaginationResponse
-import com.rpsouza.movieapp.data.model.credits.CreditsResponse
-import com.rpsouza.movieapp.data.model.gener.GenreListResponse
-import com.rpsouza.movieapp.data.model.movie.MovieResponse
-import com.rpsouza.movieapp.data.model.review.MovieReviewResponse
+import com.rpsouza.movieapp.data.remote.model.basePagination.BasePaginationResponse
+import com.rpsouza.movieapp.data.remote.model.credits.CreditsResponse
+import com.rpsouza.movieapp.data.remote.model.gener.GenreListResponse
+import com.rpsouza.movieapp.data.remote.model.movie.MovieResponse
+import com.rpsouza.movieapp.data.remote.model.review.MovieReviewResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

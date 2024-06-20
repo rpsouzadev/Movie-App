@@ -3,7 +3,7 @@ package com.rpsouza.movieapp.presenter.main.movieDetails.tabs.comments
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.movieapp.BuildConfig
-import com.rpsouza.movieapp.domain.usecase.review.GetReviewsUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.review.GetReviewsUseCase
 import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel

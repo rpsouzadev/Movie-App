@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.movieapp.BuildConfig
-import com.rpsouza.movieapp.domain.usecase.cast.GetCreditsUseCase
-import com.rpsouza.movieapp.domain.usecase.movie.GetMovieDetailsUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.cast.GetCreditsUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMovieDetailsUseCase
 import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,8 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailsViewModel @Inject constructor(
-  private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
-  private val getCreditsUseCase: GetCreditsUseCase
+    private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
+    private val getCreditsUseCase: GetCreditsUseCase
 ) : ViewModel() {
 
   private val _movieId = MutableLiveData(0)
