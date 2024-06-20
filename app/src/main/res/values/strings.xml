@@ -85,6 +85,9 @@
     <string name="text_title_empty_search_fragment">Não encontrado</string>
     <string name="text_message_empty_search_fragment">Desculpe, a palavra-chave que você digitou não foi encontrada. Tente verificar novamente ou pesquise com outras palavras-chave.</string>
 
+    <!--    DownloadFragment-->
+    <string name="text_toolbar_title_download_fragment">Download</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
