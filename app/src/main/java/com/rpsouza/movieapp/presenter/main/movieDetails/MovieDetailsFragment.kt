@@ -1,9 +1,12 @@
 package com.rpsouza.movieapp.presenter.main.movieDetails
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -11,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rpsouza.movieapp.R
+import com.rpsouza.movieapp.databinding.DialogDownloadBinding
 import com.rpsouza.movieapp.databinding.FragmentMovieDetailsBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.presenter.main.movieDetails.adapter.CastAdapter
@@ -21,6 +25,7 @@ import com.rpsouza.movieapp.presenter.main.movieDetails.tabs.trailers.TrailersFr
 import com.rpsouza.movieapp.utils.FormatDate
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.ViewPager2ViewHeightAnimator
+import com.rpsouza.movieapp.utils.calculateFileSize
 import com.rpsouza.movieapp.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
@@ -33,6 +38,9 @@ class MovieDetailsFragment : Fragment() {
     private val movieDetailsViewModel: MovieDetailsViewModel by activityViewModels()
     private val args: MovieDetailsFragmentArgs by navArgs()
     private lateinit var castAdapter: CastAdapter
+    private lateinit var dialogDownload: AlertDialog
+
+    private var movie: Movie? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,6 +57,11 @@ class MovieDetailsFragment : Fragment() {
         initRecyclerCast()
         getMovieDetails()
         configTabLayout()
+        initListeners()
+    }
+
+    private fun initListeners() {
+        binding.btnDownload.setOnClickListener { showDialogDownload() }
     }
 
     private fun configTabLayout() {
@@ -77,7 +90,7 @@ class MovieDetailsFragment : Fragment() {
 
         binding.viewPager.offscreenPageLimit = viewPagerAdapter.itemCount
 
-        viewPager.viewPager2?.let { viewPager2  ->
+        viewPager.viewPager2?.let { viewPager2 ->
             TabLayoutMediator(
                 binding.tabLayout,
                 viewPager2,
@@ -92,16 +105,14 @@ class MovieDetailsFragment : Fragment() {
             .observe(viewLifecycleOwner) { stateView ->
                 when (stateView) {
                     is StateView.Loading -> {
-//          binding.progressBar.isVisible = true
                     }
 
                     is StateView.Success -> {
-                        stateView.data?.let { configData(it) }
-//          binding.progressBar.isVisible = false
+                        this.movie = stateView.data
+                        configData()
                     }
 
                     is StateView.Error -> {
-//          binding.progressBar.isVisible = false
                     }
                 }
             }
@@ -126,23 +137,23 @@ class MovieDetailsFragment : Fragment() {
         }
     }
 
-    private fun configData(movie: Movie) {
+    private fun configData() {
         Glide
             .with(requireContext())
-            .load("https://image.tmdb.org/t/p/w500${movie.posterPath}")
+            .load("${movie?.posterPath}")
             .into(binding.imageMovie)
 
-        binding.textTitleMovie.text = movie.title
+        binding.textTitleMovie.text = movie?.title
 
-        binding.textVoteAverage.text = String.format(Locale.getDefault(), "%.1f", movie.voteAverage)
-        binding.textReleaseDate.text = FormatDate.yearFormat(movie.releaseDate ?: "")
-        binding.textProductionCountry.text = movie.productionCountries?.get(0)?.name
-        binding.textOriginalTitle.text = movie.originalTitle
+        binding.textVoteAverage.text = String.format(Locale.getDefault(), "%.1f", movie?.voteAverage)
+        binding.textReleaseDate.text = FormatDate.yearFormat(movie?.releaseDate ?: "")
+        binding.textProductionCountry.text = movie?.productionCountries?.get(0)?.name
+        binding.textOriginalTitle.text = movie?.originalTitle
 
-        val genres = movie.genres?.map { it.name }?.joinToString()
+        val genres = movie?.genres?.map { it.name }?.joinToString()
         binding.textGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
 
-        binding.textDescription.text = movie.overview
+        binding.textDescription.text = movie?.overview
 
         getCredits()
     }
@@ -156,6 +167,49 @@ class MovieDetailsFragment : Fragment() {
             )
             adapter = castAdapter
         }
+    }
+
+    private fun showDialogDownload() {
+        val dialogBinding = DialogDownloadBinding.inflate(LayoutInflater.from(requireContext()))
+        var progress = 0
+        var downloaded = 0.0
+        val movieDuration = movie?.runtime?.toDouble() ?: 0.0
+
+        val handler = Handler(Looper.getMainLooper())
+        val runnable = object: Runnable {
+            override fun run() {
+                if (progress < 100) {
+                    downloaded += (movieDuration / 100.0)
+                    dialogBinding.textDownloading.text = getString(
+                        R.string.text_downloaded_size_dialog_downloading,
+                        downloaded.calculateFileSize(),
+                        movieDuration.calculateFileSize()
+                    )
+
+                    progress++
+                    dialogBinding.progressIndicator.progress = progress
+                    dialogBinding.textProgress.text = getString(
+                        R.string.text_download_progress_dialog_downloading,
+                        progress
+                    )
+                } else {
+                    dialogDownload.dismiss()
+                }
+
+                handler.postDelayed(this,100)
+            }
+        }
+
+        handler.post(runnable)
+
+        val builder = AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+        builder.setView(dialogBinding.root)
+
+        dialogBinding.buttonHidden.setOnClickListener { dialogDownload.dismiss() }
+        dialogBinding.imageButtonCancel.setOnClickListener { dialogDownload.dismiss() }
+
+        dialogDownload = builder.create()
+        dialogDownload.show()
     }
 
     override fun onDestroy() {

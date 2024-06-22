@@ -42,7 +42,7 @@
             android:id="@+id/text_downloading"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1f"
+            android:layout_weight="1"
             android:fontFamily="@font/urbanist_700"
             android:textColor="@color/text_primary"
             tools:text="457.2 / 968.7 MB" />
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="8dp"
-            android:layout_weight="1f"
+            android:layout_weight="1"
             app:trackCornerRadius="100dp"
             app:trackThickness="8dp"
             tools:progress="47" />
