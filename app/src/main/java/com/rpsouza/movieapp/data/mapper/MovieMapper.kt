@@ -25,7 +25,7 @@ fun GenreResponse.toDomain(): Genre {
 fun MovieResponse.toDomain(): Movie {
     return Movie(
         adult = this.adult,
-        backdropPath = this.backdropPath,
+        backdropPath = "https://image.tmdb.org/t/p/w500${this.backdropPath}",
         genres = this.genres?.map { it.toDomain() },
         id = this.id,
         originalLanguage = this.originalLanguage,

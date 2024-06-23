@@ -128,6 +128,7 @@ class MovieDetailsFragment : Fragment() {
                     }
 
                     is StateView.Success -> {
+                        configData()
                     }
 
                     is StateView.Error -> {
@@ -158,7 +159,7 @@ class MovieDetailsFragment : Fragment() {
     private fun configData() {
         Glide
             .with(requireContext())
-            .load("${movie.posterPath}")
+            .load("${movie.backdropPath}")
             .into(binding.imageMovie)
 
         binding.textTitleMovie.text = movie.title

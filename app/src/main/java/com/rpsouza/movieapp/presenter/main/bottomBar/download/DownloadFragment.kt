@@ -7,6 +7,7 @@ import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.rpsouza.movieapp.MainGraphDirections
@@ -23,6 +24,7 @@ class DownloadFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var downloadMovieAdapter: DownloadMovieAdapter
+    private val downloadViewModel: DownloadViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +44,19 @@ class DownloadFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(toolbar = binding.toolbar, showIconNavigation = false)
         initRecycler()
+        initObservers()
+        getMoviesData()
         initSearchView()
+    }
+
+    private fun getMoviesData() {
+        downloadViewModel.getMovies()
+    }
+
+    private fun initObservers() {
+        downloadViewModel.movieList.observe(viewLifecycleOwner) { movieList ->
+            downloadMovieAdapter.submitList(movieList)
+        }
     }
 
     private fun initRecycler() {
