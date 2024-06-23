@@ -40,7 +40,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var castAdapter: CastAdapter
     private lateinit var dialogDownload: AlertDialog
 
-    private var movie: Movie? = null
+    private lateinit var movie: Movie
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -108,8 +108,26 @@ class MovieDetailsFragment : Fragment() {
                     }
 
                     is StateView.Success -> {
-                        this.movie = stateView.data
-                        configData()
+                        stateView.data?.let {
+                            this.movie = it
+                            configData()
+                        }
+                    }
+
+                    is StateView.Error -> {
+                    }
+                }
+            }
+    }
+
+    private fun insertMovieLocal() {
+        movieDetailsViewModel.insertMovieLocal(movie)
+            .observe(viewLifecycleOwner) { stateView ->
+                when (stateView) {
+                    is StateView.Loading -> {
+                    }
+
+                    is StateView.Success -> {
                     }
 
                     is StateView.Error -> {
@@ -140,20 +158,21 @@ class MovieDetailsFragment : Fragment() {
     private fun configData() {
         Glide
             .with(requireContext())
-            .load("${movie?.posterPath}")
+            .load("${movie.posterPath}")
             .into(binding.imageMovie)
 
-        binding.textTitleMovie.text = movie?.title
+        binding.textTitleMovie.text = movie.title
 
-        binding.textVoteAverage.text = String.format(Locale.getDefault(), "%.1f", movie?.voteAverage)
-        binding.textReleaseDate.text = FormatDate.yearFormat(movie?.releaseDate ?: "")
-        binding.textProductionCountry.text = movie?.productionCountries?.get(0)?.name
-        binding.textOriginalTitle.text = movie?.originalTitle
+        binding.textVoteAverage.text =
+            String.format(Locale.getDefault(), "%.1f", movie.voteAverage)
+        binding.textReleaseDate.text = FormatDate.yearFormat(movie.releaseDate ?: "")
+        binding.textProductionCountry.text = movie.productionCountries?.get(0)?.name
+        binding.textOriginalTitle.text = movie.originalTitle
 
-        val genres = movie?.genres?.map { it.name }?.joinToString()
+        val genres = movie.genres?.map { it.name }?.joinToString()
         binding.textGenres.text = getString(R.string.text_all_genres_movie_details_fragment, genres)
 
-        binding.textDescription.text = movie?.overview
+        binding.textDescription.text = movie.overview
 
         getCredits()
     }
@@ -173,10 +192,10 @@ class MovieDetailsFragment : Fragment() {
         val dialogBinding = DialogDownloadBinding.inflate(LayoutInflater.from(requireContext()))
         var progress = 0
         var downloaded = 0.0
-        val movieDuration = movie?.runtime?.toDouble() ?: 0.0
+        val movieDuration = movie.runtime?.toDouble() ?: 0.0
 
         val handler = Handler(Looper.getMainLooper())
-        val runnable = object: Runnable {
+        val runnable = object : Runnable {
             override fun run() {
                 if (progress < 100) {
                     downloaded += (movieDuration / 100.0)
@@ -193,10 +212,11 @@ class MovieDetailsFragment : Fragment() {
                         progress
                     )
                 } else {
+                    insertMovieLocal()
                     dialogDownload.dismiss()
                 }
 
-                handler.postDelayed(this,100)
+                handler.postDelayed(this, 100)
             }
         }
 
