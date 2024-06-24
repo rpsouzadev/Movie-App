@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -53,7 +54,7 @@ class DownloadFragment : Fragment() {
         initRecycler()
         initObservers()
         getMoviesData()
-        initSearchView()
+        initListeners()
     }
 
     private fun getMoviesData() {
@@ -65,6 +66,16 @@ class DownloadFragment : Fragment() {
             downloadMovieAdapter.submitList(movieList)
             emptyState(emptyList = movieList.isEmpty())
         }
+
+        downloadViewModel.movieSearchList.observe(viewLifecycleOwner) { movieList ->
+            downloadMovieAdapter.submitList(movieList)
+            emptyState(emptyList = movieList.isEmpty())
+        }
+    }
+
+    private fun initListeners() {
+        initSearchView()
+        onBackPressed()
     }
 
     private fun initRecycler() {
@@ -89,15 +100,14 @@ class DownloadFragment : Fragment() {
         binding.simpleSearchView.setOnQueryTextListener(object :
             SimpleSearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-                hideKeyboard()
-                if (query.isNotEmpty()) {
-//          searchMovies(query)
-                }
-                return true
+                return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                return false
+                if (newText.isNotEmpty() || newText.isEmpty()) {
+                    downloadViewModel.searchMovie(newText)
+                }
+                return true
             }
 
             override fun onQueryTextCleared(): Boolean {
@@ -111,7 +121,7 @@ class DownloadFragment : Fragment() {
             }
 
             override fun onSearchViewClosed() {
-//        getMovieByGenreList()
+                downloadViewModel.getMovies()
             }
 
             override fun onSearchViewShownAnimation() {
@@ -154,6 +164,20 @@ class DownloadFragment : Fragment() {
     private fun emptyState(emptyList: Boolean) {
         binding.recyclerDownload.isVisible = !emptyList
         binding.layoutEmpty.isVisible = emptyList
+    }
+
+    private fun onBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (binding.simpleSearchView.isVisible) {
+                        binding.simpleSearchView.closeSearch()
+                    } else {
+                        findNavController().popBackStack()
+                    }
+                }
+            }
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
