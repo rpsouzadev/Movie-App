@@ -66,7 +66,7 @@
     <string name="title_menu_home">Início</string>
     <string name="title_menu_search">Pesquisar</string>
     <string name="title_menu_favorite">Favorite</string>
-    <string name="title_menu_download">Baixar</string>
+    <string name="title_menu_download">Download</string>
     <string name="title_menu_profile">Perfil</string>
 
     <!--    GenderItem-->
@@ -84,6 +84,24 @@
     <!--    SearchFragment-->
     <string name="text_title_empty_search_fragment">Não encontrado</string>
     <string name="text_message_empty_search_fragment">Desculpe, a palavra-chave que você digitou não foi encontrada. Tente verificar novamente ou pesquise com outras palavras-chave.</string>
+
+    <!--    DownloadFragment-->
+    <string name="text_toolbar_title_download_fragment">Download</string>
+    <string name="text_title_empty_state_download_fragment">Sua lista está vazia</string>
+    <string name="text_message_empty_state_download_fragment">Parece que você não realizou o download de nenhum filme</string>
+
+    <!--    DialogDownloading-->
+    <string name="text_title_dialog_downloading">Download</string>
+    <string name="text_message_dialog_downloading">Filmes ainda baixando...\nAguarde ou oculte o processo</string>
+    <string name="text_hide_dialog_downloading">Esconder</string>
+    <string name="text_downloaded_size_dialog_downloading">%1$s / %2$s</string>
+    <string name="text_download_progress_dialog_downloading">%1$d%%</string>
+
+    <!--    BottomSheet-->
+    <string name="text_title_bottom_sheet_delete_download">Deletar</string>
+    <string name="text_message_bottom_sheet_delete_download">Tem certeza de que deseja excluir o download deste filme?</string>
+    <string name="text_button_cancel_bottom_sheet_delete_download">Não</string>
+    <string name="text_button_confirm_bottom_sheet_delete_download">Sim</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

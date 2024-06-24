@@ -81,3 +81,19 @@ fun formatCommentDate(date: String?): String {
     }
   }
 }
+
+fun Double.calculateFileSize(): String {
+  val value = this * 10.0
+
+  return if (value >= 1000) {
+    String.format("%.2f GB", value / 1000)
+  } else {
+    String.format("%.1f MB", value)
+  }
+}
+
+fun Int.calculateMovieTime(): String {
+  val hours = this / 60
+  val minutes = this % 60
+  return "${hours}h ${minutes}m"
+}

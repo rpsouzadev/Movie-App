@@ -3,8 +3,8 @@ package com.rpsouza.movieapp.presenter.main.movieGenre
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.movieapp.BuildConfig
-import com.rpsouza.movieapp.domain.usecase.movie.GetMovieByGenreUseCase
-import com.rpsouza.movieapp.domain.usecase.movie.SearchMoviesUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMovieByGenreUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.movie.SearchMoviesUseCase
 import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,8 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieGenreViewModel @Inject constructor(
-  private val getMovieByGenreUseCase: GetMovieByGenreUseCase,
-  private val searchMoviesUseCase: SearchMoviesUseCase
+    private val getMovieByGenreUseCase: GetMovieByGenreUseCase,
+    private val searchMoviesUseCase: SearchMoviesUseCase
 ): ViewModel() {
 
   fun getMovieByGenreList(genreId: Int?) = liveData(Dispatchers.IO) {

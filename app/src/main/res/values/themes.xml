@@ -33,6 +33,15 @@
         <item name="android:stateListAnimator">@null</item>
     </style>
 
+    <style name="ThemeTertiaryButton">
+        <item name="android:background">@drawable/bg_button</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/color_default</item>
+        <item name="android:fontFamily">@font/urbanist_700</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
         <style name="ThemeEditText">
             <item name="android:background">@drawable/bg_edit</item>
             <item name="android:textColor">@color/text_primary</item>
@@ -69,27 +78,20 @@
         </style>
 
         <style name="SearchViewThemeScreen" parent="Theme.AppCompat.Light.NoActionBar">
-            <!--        cor do botão de apagar o texto-->
             <item name="colorControlNormal">@color/gray_hint</item>
-            <!--        cor do texto de dica(queryHint)-->
             <item name="android:textColorHint">@color/gray_hint</item>
-            <!--        cor do texto digitado-->
             <item name="android:editTextColor">@color/text_primary</item>
-            <!--        font do texto-->
             <item name="android:fontFamily">@font/urbanist_400</item>
-            <!--        tamanho do texto-->
             <item name="android:textSize">14sp</item>
-            <!--        cor do cursor-->
             <item name="colorControlActivated">@color/text_primary</item>
-            <!--        tipo do texto-->
             <item name="android:inputType">textCapSentences</item>
         </style>
 
-    <!--    <style name="CustomAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.MinWidth">-->
-    <!--        <item name="android:windowBackground">@drawable/bg_dialog</item>-->
-    <!--        <item name="android:windowMinWidthMajor">85%</item>-->
-    <!--        <item name="android:windowMinWidthMinor">85%</item>-->
-    <!--    </style>-->
+        <style name="CustomAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.MinWidth">
+            <item name="android:windowBackground">@drawable/bg_dialog</item>
+            <item name="android:windowMinWidthMajor">85%</item>
+            <item name="android:windowMinWidthMinor">85%</item>
+        </style>
 
     <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>

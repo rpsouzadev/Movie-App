@@ -2,7 +2,7 @@ package com.rpsouza.movieapp.presenter.auth.register
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.rpsouza.movieapp.domain.usecase.auth.RegisterUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.auth.RegisterUseCase
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

@@ -3,7 +3,7 @@ package com.rpsouza.movieapp.presenter.main.movieDetails.tabs.similar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.rpsouza.movieapp.BuildConfig
-import com.rpsouza.movieapp.domain.usecase.movie.GetMoviesSimilarUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMoviesSimilarUseCase
 import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
