@@ -6,6 +6,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -62,6 +63,7 @@ class DownloadFragment : Fragment() {
     private fun initObservers() {
         downloadViewModel.movieList.observe(viewLifecycleOwner) { movieList ->
             downloadMovieAdapter.submitList(movieList)
+            emptyState(emptyList = movieList.isEmpty())
         }
     }
 
@@ -147,6 +149,11 @@ class DownloadFragment : Fragment() {
 
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
+    }
+
+    private fun emptyState(emptyList: Boolean) {
+        binding.recyclerDownload.isVisible = !emptyList
+        binding.layoutEmpty.isVisible = emptyList
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
