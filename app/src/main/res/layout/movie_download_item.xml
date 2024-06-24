@@ -21,8 +21,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
-            tools:src="@drawable/movie_poster"
-            tools:ignore="ContentDescription" />
+            tools:ignore="ContentDescription"
+            tools:src="@drawable/movie_poster" />
 
         <ImageView
             android:id="@+id/iv_play"
@@ -39,6 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
         android:ellipsize="end"
         android:fontFamily="@font/urbanist_700"
@@ -73,11 +74,11 @@
         android:fontFamily="@font/urbanist_600"
         android:paddingHorizontal="10dp"
         android:paddingVertical="6dp"
-        android:text="827.6 MB"
         android:textColor="@color/color_default"
         android:textSize="11sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardView3" />
+        app:layout_constraintStart_toEndOf="@+id/cardView3"
+        tools:text="827.6 MB" />
 
     <ImageButton
         android:id="@+id/ib_delete"
