@@ -121,20 +121,21 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun insertMovieLocal() {
-        movieDetailsViewModel.insertMovieLocal(movie)
-            .observe(viewLifecycleOwner) { stateView ->
-                when (stateView) {
-                    is StateView.Loading -> {
-                    }
+        if (view != null) {
+            movieDetailsViewModel.insertMovieLocal(movie)
+                .observe(viewLifecycleOwner) { stateView ->
+                    when (stateView) {
+                        is StateView.Loading -> {
+                        }
 
-                    is StateView.Success -> {
-                        configData()
-                    }
+                        is StateView.Success -> {
+                        }
 
-                    is StateView.Error -> {
+                        is StateView.Error -> {
+                        }
                     }
                 }
-            }
+        }
     }
 
     private fun getCredits() {
@@ -212,12 +213,14 @@ class MovieDetailsFragment : Fragment() {
                         R.string.text_download_progress_dialog_downloading,
                         progress
                     )
-                } else {
-                    insertMovieLocal()
-                    dialogDownload.dismiss()
-                }
 
-                handler.postDelayed(this, 100)
+                    handler.postDelayed(this, 100)
+                } else {
+                    if (isAdded) {
+                        insertMovieLocal()
+                        dialogDownload.dismiss()
+                    }
+                }
             }
         }
 
