@@ -18,7 +18,7 @@ import com.rpsouza.movieapp.utils.calculateMovieTime
 class DownloadMovieAdapter(
     private val context: Context,
     private val detailsClickListener: (movieId: Int) -> Unit,
-    private val deleteClickListener: (movieId: Int) -> Unit,
+    private val deleteClickListener: (movie: Movie) -> Unit,
 ) : ListAdapter<Movie, DownloadMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -58,8 +58,9 @@ class DownloadMovieAdapter(
 
         movie.id?.let { movieId ->
             holder.binding.ivMovie.setOnClickListener { detailsClickListener(movieId) }
-            holder.binding.ibDelete.setOnClickListener { deleteClickListener(movieId) }
         }
+
+        holder.binding.ibDelete.setOnClickListener { deleteClickListener(movie) }
     }
 
     inner class MyViewHolder(val binding: MovieDownloadItemBinding) :
