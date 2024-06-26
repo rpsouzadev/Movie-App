@@ -22,6 +22,7 @@ interface ServiceAPI {
     @Query("api_key") apiKey: String,
     @Query("language") language: String?,
     @Query("with_genres") genreId: Int?,
+    @Query("page") page: Int?,
   ): BasePaginationResponse<List<MovieResponse>>
 
   @GET("search/movie")
