@@ -2,7 +2,9 @@ package com.rpsouza.movieapp.presenter.main.movieGenre
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.rpsouza.movieapp.BuildConfig
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMovieByGenreUseCase
@@ -13,6 +15,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import javax.inject.Inject
 
@@ -23,18 +27,20 @@ class MovieGenreViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _movieList = MutableStateFlow<PagingData<Movie>>(PagingData.empty())
-    private val movieList get() = _movieList.asStateFlow()
+    val movieList get() = _movieList.asStateFlow()
 
     private var currentGenreId: Int? = null
 
-    fun getMovieByGenreList(genreId: Int?, forceRequest: Boolean = false) {
+    fun getMovieByGenreList(genreId: Int?, forceRequest: Boolean) = viewModelScope.launch {
         if (currentGenreId != genreId || forceRequest) {
             currentGenreId = genreId
             getMovieByGenreUseCase(
                 apiKey = BuildConfig.THE_MOVIE_DB_KEY,
                 language = Constants.Movie.LANGUAGE,
                 genreId = genreId
-            )
+            ).cachedIn(viewModelScope).collectLatest { pagingData ->
+                _movieList.emit(pagingData)
+            }
         }
     }
 
