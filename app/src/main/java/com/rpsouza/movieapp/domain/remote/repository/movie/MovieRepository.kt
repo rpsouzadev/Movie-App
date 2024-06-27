@@ -1,5 +1,6 @@
 package com.rpsouza.movieapp.domain.remote.repository.movie
 
+import androidx.paging.PagingSource
 import com.rpsouza.movieapp.data.remote.model.cast.CastResponse
 import com.rpsouza.movieapp.data.remote.model.credits.CreditsResponse
 import com.rpsouza.movieapp.data.remote.model.gener.GenreListResponse
@@ -11,11 +12,11 @@ interface MovieRepository {
 
   suspend fun getGenreList(apiKey: String, language: String?): GenreListResponse
 
-  suspend fun getMovieByGenre(
+  fun getMovieByGenre(
     apiKey: String,
     language: String?,
     genreId: Int?
-  ): List<MovieResponse>
+  ): PagingSource<Int, MovieResponse>
 
   suspend fun searchMovies(
     apiKey: String,

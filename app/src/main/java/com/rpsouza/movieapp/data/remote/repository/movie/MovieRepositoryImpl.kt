@@ -1,6 +1,8 @@
 package com.rpsouza.movieapp.data.remote.repository.movie
 
+import androidx.paging.PagingSource
 import com.rpsouza.movieapp.data.api.ServiceAPI
+import com.rpsouza.movieapp.data.paging.MovieByGenrePaging
 import com.rpsouza.movieapp.data.remote.model.cast.CastResponse
 import com.rpsouza.movieapp.data.remote.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.remote.model.movie.MovieResponse
@@ -15,16 +17,12 @@ class MovieRepositoryImpl @Inject constructor(
     return serviceAPI.getGenreList(apiKey = apiKey, language = language)
   }
 
-  override suspend fun getMovieByGenre(
+  override fun getMovieByGenre(
     apiKey: String,
     language: String?,
     genreId: Int?
-  ): List<MovieResponse> {
-    return serviceAPI.getMovieByGenre(
-      apiKey = apiKey,
-      language = language,
-      genreId = genreId
-    ).results ?: emptyList()
+  ): PagingSource<Int, MovieResponse> {
+    return MovieByGenrePaging(serviceAPI, genreId)
   }
 
   override suspend fun searchMovies(
