@@ -75,17 +75,18 @@ class MovieGenreFragment : Fragment() {
             moviePagingAdapter.loadStateFlow.collectLatest { loadState ->
                 when (loadState.refresh) {
                     is LoadState.Loading -> {
-                        binding.progressBar.isVisible = true
+                        binding.shimmerContainer.startShimmer()
                         binding.recyclerMovies.isVisible = false
                     }
 
                     is LoadState.NotLoading -> {
-                        binding.progressBar.isVisible = false
+                        binding.shimmerContainer.stopShimmer()
+                        binding.shimmerContainer.isVisible = false
                         binding.recyclerMovies.isVisible = true
                     }
 
                     is LoadState.Error -> {
-                        binding.progressBar.isVisible = false
+                        binding.shimmerContainer.stopShimmer()
                         val error =
                             (loadState.refresh as LoadState.Error).error.message ?: "Houve um error"
                         Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
@@ -175,18 +176,20 @@ class MovieGenreFragment : Fragment() {
         movieGenreViewModel.searchMovies(query).observe(viewLifecycleOwner) { stateView ->
             when (stateView) {
                 is StateView.Loading -> {
+                    binding.shimmerContainer.startShimmer()
                     binding.recyclerMovies.isVisible = false
-                    binding.progressBar.isVisible = true
                 }
 
                 is StateView.Success -> {
-                    binding.progressBar.isVisible = false
+                    binding.shimmerContainer.stopShimmer()
+                    binding.shimmerContainer.isVisible = false
                     getMovieByGenreList(forceRequest = true)
                     binding.recyclerMovies.isVisible = true
                 }
 
                 is StateView.Error -> {
-                    binding.progressBar.isVisible = false
+                    binding.shimmerContainer.stopShimmer()
+                    binding.shimmerContainer.isVisible = false
                 }
             }
         }
