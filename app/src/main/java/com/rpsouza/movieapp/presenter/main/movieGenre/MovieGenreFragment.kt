@@ -7,18 +7,21 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ferfalk.simplesearchview.SimpleSearchView
 import com.rpsouza.movieapp.MainGraphDirections
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentMovieGenreBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.MovieAdapter
+import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.LoadStatePagingAdapter
 import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.MoviePagingAdapter
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.hideKeyboard
@@ -68,11 +71,51 @@ class MovieGenreFragment : Fragment() {
             }
         )
 
-        with(binding.recyclerMovies)
-        {
-            layoutManager = GridLayoutManager(requireContext(), 2)
+        lifecycleScope.launch {
+            moviePagingAdapter.loadStateFlow.collectLatest { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        binding.progressBar.isVisible = true
+                        binding.recyclerMovies.isVisible = false
+                    }
+
+                    is LoadState.NotLoading -> {
+                        binding.progressBar.isVisible = false
+                        binding.recyclerMovies.isVisible = true
+                    }
+
+                    is LoadState.Error -> {
+                        binding.progressBar.isVisible = false
+                        val error =
+                            (loadState.refresh as LoadState.Error).error.message ?: "Houve um error"
+                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+
+
+        with(binding.recyclerMovies) {
             setHasFixedSize(true)
-            adapter = moviePagingAdapter
+
+            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = gridLayoutManager
+
+            val footerAdapter = moviePagingAdapter.withLoadStateFooter(
+                footer = LoadStatePagingAdapter()
+            )
+
+            adapter = footerAdapter
+
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == moviePagingAdapter.itemCount && footerAdapter.itemCount > 0) {
+                        2
+                    } else {
+                        1
+                    }
+                }
+            }
         }
     }
 
@@ -118,7 +161,10 @@ class MovieGenreFragment : Fragment() {
 
     private fun getMovieByGenreList(forceRequest: Boolean = false) {
         lifecycleScope.launch {
-            movieGenreViewModel.getMovieByGenreList(genreId = args.genreId, forceRequest = forceRequest)
+            movieGenreViewModel.getMovieByGenreList(
+                genreId = args.genreId,
+                forceRequest = forceRequest
+            )
             movieGenreViewModel.movieList.collectLatest { pagingData ->
                 moviePagingAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
             }
