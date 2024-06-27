@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.MovieGenreItemBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
+import com.rpsouza.movieapp.utils.circularProgressDrawable
 
 class MoviePagingAdapter(
   private val context: Context,
@@ -48,6 +49,7 @@ class MoviePagingAdapter(
     Glide
       .with(context)
       .load(movie?.posterPath)
+      .placeholder(context.circularProgressDrawable())
       .into(holder.binding.movieImage)
 
     movie?.id?.let { movieId ->
