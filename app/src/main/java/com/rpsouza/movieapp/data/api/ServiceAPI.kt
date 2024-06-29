@@ -30,7 +30,7 @@ interface ServiceAPI {
     @Query("api_key") apiKey: String,
     @Query("language") language: String?,
     @Query("query") query: String,
-    @Query("include_adult") adult: Boolean = false
+    @Query("page") page: Int?
   ): BasePaginationResponse<List<MovieResponse>>
 
   @GET("movie/{movie_id}")

@@ -13,6 +13,7 @@ import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
@@ -44,23 +45,11 @@ class MovieGenreViewModel @Inject constructor(
         }
     }
 
-    fun searchMovies(query: String) = liveData(Dispatchers.IO) {
-        try {
-            emit(StateView.Loading())
-
-            val movieList = searchMoviesUseCase.invoke(
-                apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-                language = Constants.Movie.LANGUAGE,
-                query = query
-            )
-
-            emit(StateView.Success(data = movieList))
-        } catch (ex: HttpException) {
-            ex.printStackTrace()
-            emit(StateView.Error(message = ex.message))
-        } catch (ex: Exception) {
-            ex.printStackTrace()
-            emit(StateView.Error(message = ex.message))
-        }
+    fun searchMovies(query: String): Flow<PagingData<Movie>> {
+        return searchMoviesUseCase(
+            apiKey = BuildConfig.THE_MOVIE_DB_KEY,
+            language = Constants.Movie.LANGUAGE,
+            query = query
+        ).cachedIn(viewModelScope)
     }
 }

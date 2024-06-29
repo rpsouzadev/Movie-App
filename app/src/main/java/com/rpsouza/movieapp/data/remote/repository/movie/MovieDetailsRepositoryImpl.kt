@@ -2,13 +2,10 @@ package com.rpsouza.movieapp.data.remote.repository.movie
 
 import com.rpsouza.movieapp.data.api.ServiceAPI
 import com.rpsouza.movieapp.data.remote.model.cast.CastResponse
-import com.rpsouza.movieapp.data.remote.model.gener.GenreListResponse
 import com.rpsouza.movieapp.data.remote.model.movie.MovieResponse
 import com.rpsouza.movieapp.data.remote.model.review.MovieReviewResponse
 import com.rpsouza.movieapp.domain.remote.repository.movie.MovieDetailsRepository
-import com.rpsouza.movieapp.domain.remote.repository.movie.MovieRepository
 import javax.inject.Inject
-import kotlin.coroutines.suspendCoroutine
 
 class MovieDetailsRepositoryImpl @Inject constructor(
     private val serviceAPI: ServiceAPI

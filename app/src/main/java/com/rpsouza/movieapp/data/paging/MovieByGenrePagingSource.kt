@@ -7,7 +7,7 @@ import com.rpsouza.movieapp.data.api.ServiceAPI
 import com.rpsouza.movieapp.data.remote.model.movie.MovieResponse
 import com.rpsouza.movieapp.utils.Constants
 
-class MovieByGenrePaging(
+class MovieByGenrePagingSource(
     private val serviceAPI: ServiceAPI,
     private val genreId: Int?
 ) : PagingSource<Int, MovieResponse>() {
