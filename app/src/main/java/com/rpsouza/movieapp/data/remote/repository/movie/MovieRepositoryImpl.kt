@@ -10,25 +10,17 @@ import com.rpsouza.movieapp.domain.remote.repository.movie.MovieRepository
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
-  private val serviceAPI: ServiceAPI
+    private val serviceAPI: ServiceAPI
 ) : MovieRepository {
-  override suspend fun getGenreList(apiKey: String, language: String?): GenreListResponse {
-    return serviceAPI.getGenreList(apiKey = apiKey, language = language)
-  }
+    override suspend fun getGenreList(): GenreListResponse {
+        return serviceAPI.getGenreList()
+    }
 
-  override fun getMovieByGenre(
-    apiKey: String,
-    language: String?,
-    genreId: Int?
-  ): PagingSource<Int, MovieResponse> {
-    return MovieByGenrePagingSource(serviceAPI, genreId)
-  }
+    override fun getMovieByGenre(genreId: Int?): PagingSource<Int, MovieResponse> {
+        return MovieByGenrePagingSource(serviceAPI, genreId)
+    }
 
-  override fun searchMovies(
-    apiKey: String,
-    language: String?,
-    query: String
-  ): PagingSource<Int, MovieResponse> {
-    return SearchMoviePagingSource(serviceAPI, query)
-  }
+    override fun searchMovies(query: String): PagingSource<Int, MovieResponse> {
+        return SearchMoviePagingSource(serviceAPI, query)
+    }
 }

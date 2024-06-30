@@ -10,17 +10,9 @@ import retrofit2.http.Query
 
 interface MovieRepository {
 
-    suspend fun getGenreList(apiKey: String, language: String?): GenreListResponse
+    suspend fun getGenreList(): GenreListResponse
 
-    fun getMovieByGenre(
-        apiKey: String,
-        language: String?,
-        genreId: Int?
-    ): PagingSource<Int, MovieResponse>
+    fun getMovieByGenre(genreId: Int?): PagingSource<Int, MovieResponse>
 
-    fun searchMovies(
-        apiKey: String,
-        language: String?,
-        query: String
-    ): PagingSource<Int, MovieResponse>
+    fun searchMovies(query: String): PagingSource<Int, MovieResponse>
 }

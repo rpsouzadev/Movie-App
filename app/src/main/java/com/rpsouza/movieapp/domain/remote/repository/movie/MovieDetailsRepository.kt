@@ -5,26 +5,11 @@ import com.rpsouza.movieapp.data.remote.model.movie.MovieResponse
 import com.rpsouza.movieapp.data.remote.model.review.MovieReviewResponse
 
 interface MovieDetailsRepository {
-  suspend fun getMovieDetails(
-    movieId: Int,
-    apiKey: String,
-    language: String?,
-  ): MovieResponse
+    suspend fun getMovieDetails(movieId: Int): MovieResponse
 
-  suspend fun getCredits(
-    movieId: Int,
-    apiKey: String,
-    language: String?,
-  ): List<CastResponse>
+    suspend fun getCredits(movieId: Int): List<CastResponse>
 
-  suspend fun getMoviesSimilar(
-    movieId: Int,
-    apiKey: String,
-    language: String?,
-  ): List<MovieResponse>
+    suspend fun getMoviesSimilar(movieId: Int): List<MovieResponse>
 
-  suspend fun getReviews(
-    movieId: Int,
-    apiKey: String,
-  ): List<MovieReviewResponse>
+    suspend fun getReviews(movieId: Int): List<MovieReviewResponse>
 }

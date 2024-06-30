@@ -4,12 +4,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.rpsouza.movieapp.BuildConfig
 import com.rpsouza.movieapp.domain.local.usecase.InsertMovieLocalUseCase
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.remote.usecase.cast.GetCreditsUseCase
 import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMovieDetailsUseCase
-import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,11 +28,7 @@ class MovieDetailsViewModel @Inject constructor(
         try {
             emit(StateView.Loading())
 
-            val movieDetails = getMovieDetailsUseCase.invoke(
-                movieId = movieId,
-                apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-                language = Constants.Movie.LANGUAGE,
-            )
+            val movieDetails = getMovieDetailsUseCase.invoke(movieId = movieId)
 
             emit(StateView.Success(data = movieDetails))
         } catch (ex: HttpException) {
@@ -50,11 +44,7 @@ class MovieDetailsViewModel @Inject constructor(
         try {
             emit(StateView.Loading())
 
-            val castList = getCreditsUseCase.invoke(
-                movieId = movieId,
-                apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-                language = Constants.Movie.LANGUAGE,
-            )
+            val castList = getCreditsUseCase.invoke(movieId = movieId)
 
             emit(StateView.Success(data = castList))
         } catch (ex: HttpException) {

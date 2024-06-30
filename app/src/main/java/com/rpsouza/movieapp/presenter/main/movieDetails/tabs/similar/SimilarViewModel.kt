@@ -2,9 +2,7 @@ package com.rpsouza.movieapp.presenter.main.movieDetails.tabs.similar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.rpsouza.movieapp.BuildConfig
 import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMoviesSimilarUseCase
-import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,11 +18,7 @@ class SimilarViewModel @Inject constructor(
         try {
             emit(StateView.Loading())
 
-            val moviesSimilar = getMoviesSimilarUseCase.invoke(
-                apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-                language = Constants.Movie.LANGUAGE,
-                movieId = movieId
-            )
+            val moviesSimilar = getMoviesSimilarUseCase.invoke(movieId = movieId)
 
             emit(StateView.Success(data = moviesSimilar))
         } catch (ex: HttpException) {

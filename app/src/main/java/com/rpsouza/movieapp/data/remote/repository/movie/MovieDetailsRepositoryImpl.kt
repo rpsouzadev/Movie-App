@@ -10,49 +10,19 @@ import javax.inject.Inject
 class MovieDetailsRepositoryImpl @Inject constructor(
     private val serviceAPI: ServiceAPI
 ) : MovieDetailsRepository {
-    override suspend fun getMovieDetails(
-        movieId: Int,
-        apiKey: String,
-        language: String?
-    ): MovieResponse {
-        return serviceAPI.getMovieDetails(
-            movieId = movieId,
-            apiKey = apiKey,
-            language = language,
-        )
+    override suspend fun getMovieDetails(movieId: Int): MovieResponse {
+        return serviceAPI.getMovieDetails(movieId = movieId)
     }
 
-    override suspend fun getCredits(
-        movieId: Int,
-        apiKey: String,
-        language: String?
-    ): List<CastResponse> {
-        return serviceAPI.getCredits(
-            movieId = movieId,
-            apiKey = apiKey,
-            language = language,
-        ).cast
+    override suspend fun getCredits(movieId: Int): List<CastResponse> {
+        return serviceAPI.getCredits(movieId = movieId).cast
     }
 
-    override suspend fun getMoviesSimilar(
-        movieId: Int,
-        apiKey: String,
-        language: String?
-    ): List<MovieResponse> {
-        return serviceAPI.getMoviesSimilar(
-            movieId = movieId,
-            apiKey = apiKey,
-            language = language,
-        ).results ?: emptyList()
+    override suspend fun getMoviesSimilar(movieId: Int): List<MovieResponse> {
+        return serviceAPI.getMoviesSimilar(movieId = movieId).results ?: emptyList()
     }
 
-    override suspend fun getReviews(
-        movieId: Int,
-        apiKey: String,
-    ): List<MovieReviewResponse> {
-        return serviceAPI.getReviews(
-            movieId = movieId,
-            apiKey = apiKey,
-        ).results ?: emptyList()
+    override suspend fun getReviews(movieId: Int): List<MovieReviewResponse> {
+        return serviceAPI.getReviews(movieId = movieId).results ?: emptyList()
     }
 }

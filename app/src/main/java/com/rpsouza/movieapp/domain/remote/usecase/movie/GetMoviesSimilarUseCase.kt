@@ -10,11 +10,8 @@ class GetMoviesSimilarUseCase @Inject constructor(
     private val movieDetailsRepository: MovieDetailsRepository
 ) {
 
-    suspend operator fun invoke(movieId: Int, apiKey: String, language: String): List<Movie> {
-        return movieDetailsRepository.getMoviesSimilar(
-            movieId = movieId,
-            apiKey = apiKey,
-            language = language,
-        ).map { it.toDomain() }.filter { it.posterPath != null }
+    suspend operator fun invoke(movieId: Int): List<Movie> {
+        return movieDetailsRepository.getMoviesSimilar(movieId = movieId)
+            .map { it.toDomain() }.filter { it.posterPath != null }
     }
 }

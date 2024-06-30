@@ -10,10 +10,7 @@ class GetReviewsUseCase @Inject constructor(
     private val movieDetailsRepository: MovieDetailsRepository
 ) {
 
-    suspend operator fun invoke(movieId: Int, apiKey: String): List<MovieReview> {
-        return movieDetailsRepository.getReviews(
-            movieId = movieId,
-            apiKey = apiKey,
-        ).map { it.toDomain() }
+    suspend operator fun invoke(movieId: Int): List<MovieReview> {
+        return movieDetailsRepository.getReviews(movieId = movieId).map { it.toDomain() }
     }
 }

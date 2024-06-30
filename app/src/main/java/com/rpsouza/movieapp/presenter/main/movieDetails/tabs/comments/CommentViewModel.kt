@@ -2,9 +2,7 @@ package com.rpsouza.movieapp.presenter.main.movieDetails.tabs.comments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
-import com.rpsouza.movieapp.BuildConfig
 import com.rpsouza.movieapp.domain.remote.usecase.review.GetReviewsUseCase
-import com.rpsouza.movieapp.utils.Constants
 import com.rpsouza.movieapp.utils.StateView
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,10 +18,7 @@ class CommentViewModel @Inject constructor(
         try {
             emit(StateView.Loading())
 
-            val comments = getReviewsUseCase.invoke(
-                apiKey = BuildConfig.THE_MOVIE_DB_KEY,
-                movieId = movieId
-            )
+            val comments = getReviewsUseCase.invoke(movieId = movieId)
 
             emit(StateView.Success(data = comments))
         } catch (ex: HttpException) {

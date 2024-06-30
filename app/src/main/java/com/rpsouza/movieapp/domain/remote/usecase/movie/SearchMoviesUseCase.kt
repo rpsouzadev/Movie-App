@@ -16,14 +16,14 @@ import javax.inject.Inject
 class SearchMoviesUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-    operator fun invoke(apiKey: String, language: String, query: String): Flow<PagingData<Movie>> {
+    operator fun invoke(query: String): Flow<PagingData<Movie>> {
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false,
                 initialLoadSize = DEFAULT_PAGE_INDEX
             ),
-            pagingSourceFactory = { movieRepository.searchMovies(apiKey, language, query) }
+            pagingSourceFactory = { movieRepository.searchMovies(query) }
         ).flow.map { pagingData ->
             pagingData.map { movieResponse ->
                 movieResponse.toDomain()

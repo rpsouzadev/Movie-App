@@ -16,20 +16,18 @@ import javax.inject.Inject
 class GetMovieByGenreUseCase @Inject constructor(
     private val movieRepository: MovieRepository
 ) {
-    operator fun invoke(
-        apiKey: String,
-        language: String,
-        genreId: Int?
-    ): Flow<PagingData<Movie>> = Pager(
-        config = PagingConfig(
-            pageSize = NETWORK_PAGE_SIZE,
-            enablePlaceholders = false,
-            initialLoadSize = DEFAULT_PAGE_INDEX
-        ),
-        pagingSourceFactory = { movieRepository.getMovieByGenre(apiKey, language, genreId) }
-    ).flow.map { pagingData ->
-        pagingData.map { movieResponse ->
-            movieResponse.toDomain()
+    operator fun invoke(genreId: Int?): Flow<PagingData<Movie>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = NETWORK_PAGE_SIZE,
+                enablePlaceholders = false,
+                initialLoadSize = DEFAULT_PAGE_INDEX
+            ),
+            pagingSourceFactory = { movieRepository.getMovieByGenre(genreId) }
+        ).flow.map { pagingData ->
+            pagingData.map { movieResponse ->
+                movieResponse.toDomain()
+            }
         }
     }
 }
