@@ -104,6 +104,9 @@ dependencies {
   // Swipe Refresh Layout
   implementation(libs.androidx.swiperefreshlayout)
 
+  // https://github.com/airbnb/lottie-android
+  implementation(libs.lottie)
+
   testImplementation(libs.junit)
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
