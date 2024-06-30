@@ -4,19 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rpsouza.movieapp.MainGraphDirections
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentSearchBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.MovieAdapter
+import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.LoadStatePagingAdapter
+import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.MoviePagingAdapter
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
@@ -24,7 +31,7 @@ class SearchFragment : Fragment() {
   private val binding get() = _binding!!
 
   private val searchViewModel: SearchViewModel by viewModels()
-  private lateinit var movieAdapter: MovieAdapter
+  private lateinit var moviePagingAdapter: MoviePagingAdapter
 
   override fun onCreateView(
     inflater: LayoutInflater,
@@ -39,29 +46,65 @@ class SearchFragment : Fragment() {
     super.onViewCreated(view, savedInstanceState)
     initRecycler()
     initSearchView()
-    initObservers()
-  }
-
-  private fun initObservers() {
-    initStateObserver()
-    searchObserver()
   }
 
   private fun initRecycler() {
-    movieAdapter = MovieAdapter(
+    moviePagingAdapter = MoviePagingAdapter(
       context = requireContext(),
-      itemInflater = R.layout.movie_genre_item,
       movieClickListener = { movieId ->
         val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
         findNavController().navigate(action)
       }
     )
 
-    with(binding.recyclerMovies)
-    {
-      layoutManager = GridLayoutManager(requireContext(), 2)
+    lifecycleScope.launch {
+      moviePagingAdapter.loadStateFlow.collectLatest { loadState ->
+        when (loadState.refresh) {
+          is LoadState.Loading -> {
+            binding.shimmerContainer.startShimmer()
+            binding.recyclerMovies.isVisible = false
+            binding.shimmerContainer.isVisible = true
+          }
+
+          is LoadState.NotLoading -> {
+            binding.shimmerContainer.stopShimmer()
+            binding.shimmerContainer.isVisible = false
+            binding.recyclerMovies.isVisible = true
+          }
+
+          is LoadState.Error -> {
+            binding.shimmerContainer.stopShimmer()
+            binding.shimmerContainer.isVisible = false
+            val error =
+              (loadState.refresh as LoadState.Error).error.message ?: "Houve um error"
+            Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+          }
+        }
+      }
+    }
+
+
+    with(binding.recyclerMovies) {
       setHasFixedSize(true)
-      adapter = movieAdapter
+
+      val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+      layoutManager = gridLayoutManager
+
+      val footerAdapter = moviePagingAdapter.withLoadStateFooter(
+        footer = LoadStatePagingAdapter()
+      )
+
+      adapter = footerAdapter
+
+      gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+        override fun getSpanSize(position: Int): Int {
+          return if (position == moviePagingAdapter.itemCount && footerAdapter.itemCount > 0) {
+            2
+          } else {
+            1
+          }
+        }
+      }
     }
   }
 
@@ -70,7 +113,7 @@ class SearchFragment : Fragment() {
       override fun onQueryTextSubmit(query: String): Boolean {
         hideKeyboard()
         if (query.isNotEmpty()) {
-          searchViewModel.searchMovies(query)
+          searchMovies(query)
         }
         return true
       }
@@ -81,31 +124,11 @@ class SearchFragment : Fragment() {
     })
   }
 
-  private fun initStateObserver() {
-    searchViewModel.searchState.observe(viewLifecycleOwner) { stateView ->
-      when (stateView) {
-        is StateView.Loading -> {
-          binding.layoutEmpty.isVisible = false
-          binding.recyclerMovies.isVisible = false
-          binding.progressBar.isVisible = true
-        }
-
-        is StateView.Success -> {
-          binding.progressBar.isVisible = false
-          binding.recyclerMovies.isVisible = true
-        }
-
-        is StateView.Error -> {
-          binding.progressBar.isVisible = false
-        }
+  private fun searchMovies(query: String) {
+    lifecycleScope.launch {
+      searchViewModel.searchMovies(query).collectLatest { pagingData ->
+        moviePagingAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
       }
-    }
-  }
-
-  private fun searchObserver() {
-    searchViewModel.movieList.observe(viewLifecycleOwner) { movieList ->
-      movieAdapter.submitList(movieList)
-      emptyState(emptyList = movieList.isEmpty())
     }
   }
 
