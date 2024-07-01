@@ -1,7 +1,6 @@
 package com.rpsouza.movieapp.presenter.main.bottomBar.home
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +13,7 @@ import com.rpsouza.movieapp.databinding.FragmentHomeBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.GenreMovieAdapter
 import com.rpsouza.movieapp.presenter.model.GenrePresentation
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.animNavigate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -85,12 +85,12 @@ class HomeFragment : Fragment() {
     genreMovieAdapter = GenreMovieAdapter(
       seeAllList = { genreId, genreName ->
         val action = HomeFragmentDirections.actionMenuHomeToMovieGenreFragment(genreId, genreName)
-        findNavController().navigate(action)
+        findNavController().animNavigate(action)
       },
       
       movieClickListener = { movieId ->
         val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
-        findNavController().navigate(action)
+        findNavController().animNavigate(action)
       }
     )
 

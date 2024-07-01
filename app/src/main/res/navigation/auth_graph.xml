@@ -9,20 +9,21 @@
         android:id="@+id/onboardingFragment"
         android:name="com.rpsouza.movieapp.presenter.onboarding.OnboardingFragment"
         android:label="fragment_onboarding"
-        tools:layout="@layout/fragment_onboarding" >
+        tools:layout="@layout/fragment_onboarding">
         <action
             android:id="@+id/action_onboardingFragment_to_Authentication"
             app:destination="@id/Authentication"
             app:popUpTo="@id/onboardingFragment"
             app:popUpToInclusive="true" />
     </fragment>
-    <navigation android:id="@+id/Authentication"
+    <navigation
+        android:id="@+id/Authentication"
         app:startDestination="@id/homeAuthFragment">
         <fragment
             android:id="@+id/homeAuthFragment"
             android:name="com.rpsouza.movieapp.presenter.auth.home.HomeAuthFragment"
             android:label="fragment_home_auth"
-            tools:layout="@layout/fragment_home_auth" >
+            tools:layout="@layout/fragment_home_auth">
             <action
                 android:id="@+id/action_homeAuthFragment_to_loginFragment"
                 app:destination="@id/loginFragment" />
@@ -34,7 +35,7 @@
             android:id="@+id/loginFragment"
             android:name="com.rpsouza.movieapp.presenter.auth.login.LoginFragment"
             android:label="fragment_login"
-            tools:layout="@layout/fragment_login" >
+            tools:layout="@layout/fragment_login">
             <action
                 android:id="@+id/action_loginFragment_to_forgotFragment"
                 app:destination="@id/forgotFragment" />
@@ -54,7 +55,7 @@
         android:id="@+id/splashFragment"
         android:name="com.rpsouza.movieapp.presenter.splash.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment"

@@ -20,9 +20,9 @@ import com.rpsouza.movieapp.databinding.BottomSheetDeleteMovieBinding
 import com.rpsouza.movieapp.databinding.FragmentDownloadBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.presenter.main.bottomBar.download.adapter.DownloadMovieAdapter
+import com.rpsouza.movieapp.utils.animNavigate
 import com.rpsouza.movieapp.utils.calculateFileSize
 import com.rpsouza.movieapp.utils.calculateMovieTime
-import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -83,7 +83,7 @@ class DownloadFragment : Fragment() {
             context = requireContext(),
             detailsClickListener = { movieId ->
                 val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
-                findNavController().navigate(action)
+                findNavController().animNavigate(action)
             },
             deleteClickListener = { movie ->
                 showBottomSheetDeleteMovie(movie)

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentOnboardingBinding
+import com.rpsouza.movieapp.utils.animNavigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -32,7 +33,7 @@ class OnboardingFragment : Fragment() {
   private fun initListeners() {
     binding.btnStart.setOnClickListener {
       val action = R.id.action_onboardingFragment_to_Authentication
-      findNavController().navigate(action)
+      findNavController().animNavigate(action)
     }
   }
 

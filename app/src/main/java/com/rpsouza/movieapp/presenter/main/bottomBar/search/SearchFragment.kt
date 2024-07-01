@@ -14,12 +14,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import com.rpsouza.movieapp.MainGraphDirections
-import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentSearchBinding
-import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.MovieAdapter
 import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.LoadStatePagingAdapter
 import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.MoviePagingAdapter
-import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.animNavigate
 import com.rpsouza.movieapp.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -53,7 +51,7 @@ class SearchFragment : Fragment() {
       context = requireContext(),
       movieClickListener = { movieId ->
         val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
-        findNavController().navigate(action)
+        findNavController().animNavigate(action)
       }
     )
 

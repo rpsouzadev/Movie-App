@@ -15,6 +15,7 @@ import com.rpsouza.movieapp.databinding.FragmentLoginBinding
 import com.rpsouza.movieapp.presenter.main.activity.MainActivity
 import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.animNavigate
 import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.isEmailValid
@@ -46,7 +47,7 @@ class LoginFragment : Fragment() {
   private fun initListeners() {
     binding.textBtnForgot.setOnClickListener {
       val action = R.id.action_loginFragment_to_forgotFragment
-      findNavController().navigate(action)
+      findNavController().animNavigate(action)
     }
 
     binding.btnLogin.setOnClickListener { validateData() }
