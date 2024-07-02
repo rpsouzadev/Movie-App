@@ -13,7 +13,7 @@ import com.rpsouza.movieapp.domain.model.movie.Country
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.model.review.AuthorDetails
 import com.rpsouza.movieapp.domain.model.review.MovieReview
-import com.rpsouza.movieapp.presenter.model.GenrePresentation
+import com.rpsouza.movieapp.presenter.model.MoviesByGenre
 
 fun GenreResponse.toDomain(): Genre {
     return Genre(
@@ -43,13 +43,6 @@ fun MovieResponse.toDomain(): Movie {
     )
 }
 
-fun Genre.toPresentation(): GenrePresentation {
-    return GenrePresentation(
-        id = this.id,
-        name = this.name,
-        movies = emptyList()
-    )
-}
 
 fun CountryResponse.toDomain(): Country {
     return Country(name = this.name)

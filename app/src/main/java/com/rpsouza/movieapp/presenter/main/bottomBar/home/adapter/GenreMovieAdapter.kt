@@ -1,34 +1,32 @@
 package com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.GenreItemBinding
-import com.rpsouza.movieapp.presenter.model.GenrePresentation
+import com.rpsouza.movieapp.presenter.model.MoviesByGenre
 
 class GenreMovieAdapter(
   private val seeAllList: (genreId: Int, genreName: String) -> Unit,
   private val movieClickListener: (movieId: Int) -> Unit
-) : ListAdapter<GenrePresentation, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
+) : ListAdapter<MoviesByGenre, GenreMovieAdapter.MyViewHolder>(DIFF_CALLBACK) {
 
   companion object {
-    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<GenrePresentation>() {
+    val DIFF_CALLBACK = object : DiffUtil.ItemCallback<MoviesByGenre>() {
       override fun areItemsTheSame(
-        oldItem: GenrePresentation,
-        newItem: GenrePresentation
+          oldItem: MoviesByGenre,
+          newItem: MoviesByGenre
       ): Boolean {
         return oldItem.id == newItem.id
       }
 
       override fun areContentsTheSame(
-        oldItem: GenrePresentation,
-        newItem: GenrePresentation
+          oldItem: MoviesByGenre,
+          newItem: MoviesByGenre
       ): Boolean {
         return oldItem == newItem
       }
