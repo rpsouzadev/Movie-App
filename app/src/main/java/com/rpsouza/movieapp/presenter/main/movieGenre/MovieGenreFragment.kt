@@ -57,7 +57,7 @@ class MovieGenreFragment : Fragment() {
         initToolbar(toolbar = binding.toolbar)
         binding.toolbar.title = args.genreName
         initRecycler()
-        getMovieByGenreList()
+        getMovieByGenrePaginationList()
         initSearchView()
     }
 
@@ -146,7 +146,7 @@ class MovieGenreFragment : Fragment() {
             }
 
             override fun onSearchViewClosed() {
-                getMovieByGenreList()
+                getMovieByGenrePaginationList()
             }
 
             override fun onSearchViewShownAnimation() {
@@ -159,9 +159,9 @@ class MovieGenreFragment : Fragment() {
         })
     }
 
-    private fun getMovieByGenreList(forceRequest: Boolean = false) {
+    private fun getMovieByGenrePaginationList(forceRequest: Boolean = false) {
         lifecycleScope.launch {
-            movieGenreViewModel.getMovieByGenreList(
+            movieGenreViewModel.getMovieByGenrePaginationList(
                 genreId = args.genreId,
                 forceRequest = forceRequest
             )

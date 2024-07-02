@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
     try {
       emit(StateView.Loading())
 
-      val moviesByGenre = getMovieByGenreUseCase.invoke( genreId = genreId)
+      val moviesByGenre = getMovieByGenreUseCase( genreId = genreId)
 
       emit(StateView.Success(data = moviesByGenre))
     } catch (ex: HttpException) {
