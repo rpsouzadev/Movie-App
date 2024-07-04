@@ -25,118 +25,120 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SearchFragment : Fragment() {
-  private var _binding: FragmentSearchBinding? = null
-  private val binding get() = _binding!!
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
 
-  private val searchViewModel: SearchViewModel by viewModels()
-  private lateinit var moviePagingAdapter: MoviePagingAdapter
+    private val searchViewModel: SearchViewModel by viewModels()
+    private lateinit var moviePagingAdapter: MoviePagingAdapter
 
-  override fun onCreateView(
-    inflater: LayoutInflater,
-    container: ViewGroup?,
-    savedInstanceState: Bundle?
-  ): View {
-    _binding = FragmentSearchBinding.inflate(inflater, container, false)
-    return binding.root
-  }
-
-  override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-    super.onViewCreated(view, savedInstanceState)
-    initRecycler()
-    initSearchView()
-  }
-
-  private fun initRecycler() {
-    moviePagingAdapter = MoviePagingAdapter(
-      context = requireContext(),
-      movieClickListener = { movieId ->
-        val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
-        findNavController().animNavigate(action)
-      }
-    )
-
-    lifecycleScope.launch {
-      moviePagingAdapter.loadStateFlow.collectLatest { loadState ->
-        when (loadState.refresh) {
-          is LoadState.Loading -> {
-            binding.shimmerContainer.startShimmer()
-            binding.recyclerMovies.isVisible = false
-            binding.shimmerContainer.isVisible = true
-          }
-
-          is LoadState.NotLoading -> {
-            binding.shimmerContainer.stopShimmer()
-            binding.shimmerContainer.isVisible = false
-            binding.recyclerMovies.isVisible = true
-          }
-
-          is LoadState.Error -> {
-            binding.shimmerContainer.stopShimmer()
-            binding.shimmerContainer.isVisible = false
-            val error =
-              (loadState.refresh as LoadState.Error).error.message ?: "Houve um error"
-            Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
-          }
-        }
-      }
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-
-    with(binding.recyclerMovies) {
-      setHasFixedSize(true)
-
-      val gridLayoutManager = GridLayoutManager(requireContext(), 2)
-      layoutManager = gridLayoutManager
-
-      val footerAdapter = moviePagingAdapter.withLoadStateFooter(
-        footer = LoadStatePagingAdapter()
-      )
-
-      adapter = footerAdapter
-
-      gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-        override fun getSpanSize(position: Int): Int {
-          return if (position == moviePagingAdapter.itemCount && footerAdapter.itemCount > 0) {
-            2
-          } else {
-            1
-          }
-        }
-      }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initRecycler()
+        initSearchView()
+        collectSearchResults()
     }
-  }
 
-  private fun initSearchView() {
-    binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-      override fun onQueryTextSubmit(query: String): Boolean {
-        hideKeyboard()
-        if (query.isNotEmpty()) {
-          searchMovies(query)
+    private fun initRecycler() {
+        moviePagingAdapter = MoviePagingAdapter(
+            context = requireContext(),
+            movieClickListener = { movieId ->
+                val action = MainGraphDirections.actionGlobalMovieDetailsFragment(movieId)
+                findNavController().animNavigate(action)
+            }
+        )
+
+        lifecycleScope.launch {
+            moviePagingAdapter.loadStateFlow.collectLatest { loadState ->
+                when (loadState.refresh) {
+                    is LoadState.Loading -> {
+                        binding.shimmerContainer.startShimmer()
+                        binding.recyclerMovies.isVisible = false
+                        binding.shimmerContainer.isVisible = true
+                    }
+
+                    is LoadState.NotLoading -> {
+                        binding.shimmerContainer.stopShimmer()
+                        binding.shimmerContainer.isVisible = false
+                        binding.recyclerMovies.isVisible = true
+                        emptyState(moviePagingAdapter.itemCount == 0)
+                    }
+
+                    is LoadState.Error -> {
+                        binding.shimmerContainer.stopShimmer()
+                        binding.shimmerContainer.isVisible = false
+                        val error =
+                            (loadState.refresh as LoadState.Error).error.message ?: "Houve um error"
+                        Toast.makeText(requireContext(), error, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
-        return true
-      }
 
-      override fun onQueryTextChange(newText: String): Boolean {
-        return false
-      }
-    })
-  }
 
-  private fun searchMovies(query: String) {
-    lifecycleScope.launch {
-      searchViewModel.searchMovies(query).collectLatest { pagingData ->
-        moviePagingAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
-      }
+        with(binding.recyclerMovies) {
+            setHasFixedSize(true)
+
+            val gridLayoutManager = GridLayoutManager(requireContext(), 2)
+            layoutManager = gridLayoutManager
+
+            val footerAdapter = moviePagingAdapter.withLoadStateFooter(
+                footer = LoadStatePagingAdapter()
+            )
+
+            adapter = footerAdapter
+
+            gridLayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int): Int {
+                    return if (position == moviePagingAdapter.itemCount && footerAdapter.itemCount > 0) {
+                        2
+                    } else {
+                        1
+                    }
+                }
+            }
+        }
     }
-  }
 
-  private fun emptyState(emptyList: Boolean) {
-    binding.recyclerMovies.isVisible = !emptyList
-    binding.layoutEmpty.isVisible = emptyList
-  }
+    private fun initSearchView() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                hideKeyboard()
+                if (query.isNotEmpty()) {
+                    searchViewModel.searchMovies(query)
+                }
+                return true
+            }
 
-  override fun onDestroyView() {
-    super.onDestroyView()
-    _binding = null
-  }
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
+            }
+        })
+    }
+
+    private fun collectSearchResults() {
+        lifecycleScope.launch {
+            searchViewModel.searchResults.collectLatest { pagingData ->
+                moviePagingAdapter.submitData(viewLifecycleOwner.lifecycle, pagingData)
+            }
+        }
+    }
+
+    private fun emptyState(emptyList: Boolean) {
+        binding.recyclerMovies.isVisible = !emptyList
+        binding.layoutEmpty.isVisible = emptyList
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
