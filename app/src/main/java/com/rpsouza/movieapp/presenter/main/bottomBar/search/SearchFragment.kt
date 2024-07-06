@@ -83,7 +83,6 @@ class SearchFragment : Fragment() {
             }
         }
 
-
         with(binding.recyclerMovies) {
             setHasFixedSize(true)
 
