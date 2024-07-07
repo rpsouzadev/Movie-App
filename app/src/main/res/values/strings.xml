@@ -114,15 +114,23 @@
     <string name="text_privacy_policy_profile_fragment">Política de privacidade</string>
     <string name="text_logout_profile_fragment">Sair</string>
 
-    <!--    EditProfileFragment-->
+    <!--    EditProfileFragment XML-->
     <string name="text_edit_profile_edit_profile_fragment">Editar perfil</string>
     <string name="text_hint_first_name_edit_profile_fragment">Nome</string>
     <string name="text_hint_last_name_edit_profile_fragment">Sobrenome</string>
     <string name="text_hint_email_edit_profile_fragment">Email</string>
     <string name="text_hint_phone_edit_profile_fragment">Telefone</string>
-    <string name="text_hint_sex_edit_profile_fragment">Sexo</string>
+    <string name="text_hint_gender_edit_profile_fragment">Gênero</string>
     <string name="text_hint_country_edit_profile_fragment">País</string>
     <string name="text_button_save_edit_profile_fragment">Atualizar</string>
+
+    <!--    EditProfileFragment-->
+    <string name="text_first_name_empty_edit_profile_fragment">Digite seu nome</string>
+    <string name="text_last_name_empty_edit_profile_fragment">Digite seu sobrenome</string>
+    <string name="text_phone_empty_edit_profile_fragment">Digite seu telefone</string>
+    <string name="text_phone_invalid_edit_profile_fragment">Digite um telefone válido</string>
+    <string name="text_gender_empty_edit_profile_fragment">Digite seu gênero</string>
+    <string name="text_country_empty_edit_profile_fragment">Digite seu país</string>
 
     <!--    BottomSheetLogout-->
     <string name="text_title_bottom_sheet_logout">Sair</string>

@@ -35,7 +35,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="16dp">
 
             <FrameLayout
@@ -107,13 +107,16 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:hint="@string/text_hint_email_edit_profile_fragment"
+                android:clickable="false"
+                android:enabled="false"
                 android:importantForAutofill="no"
                 android:inputType="textEmailAddress"
+                android:textColor="@color/disabled"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_last_name" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_last_name"
+                tools:text="user1@email.com" />
 
             <EditText
                 android:id="@+id/edit_phone"
@@ -130,12 +133,12 @@
                 app:layout_constraintTop_toBottomOf="@+id/edit_email" />
 
             <EditText
-                android:id="@+id/edit_sex"
+                android:id="@+id/edit_gender"
                 style="@style/ThemeEditText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:hint="@string/text_hint_sex_edit_profile_fragment"
+                android:hint="@string/text_hint_gender_edit_profile_fragment"
                 android:importantForAutofill="no"
                 android:inputType="text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -155,10 +158,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/edit_sex" />
+                app:layout_constraintTop_toBottomOf="@+id/edit_gender" />
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/button_update"
                 style="@style/ThemePrimaryButton"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -167,7 +170,8 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_country" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

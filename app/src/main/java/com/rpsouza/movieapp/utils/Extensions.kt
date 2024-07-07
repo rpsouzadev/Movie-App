@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.inputmethod.InputMethodManager
+import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -56,6 +57,15 @@ fun Fragment.showSnackBar(
     duration: Int = Snackbar.LENGTH_LONG
 ) {
     view?.let { Snackbar.make(it, message, duration).show() }
+}
+
+fun Fragment.showSnackBar(
+    message: String,
+    duration: Int = Snackbar.LENGTH_LONG
+) {
+    view?.let {
+        Snackbar.make(it, message, duration).show()
+    }
 }
 
 fun String.isEmailValid(): Boolean {
