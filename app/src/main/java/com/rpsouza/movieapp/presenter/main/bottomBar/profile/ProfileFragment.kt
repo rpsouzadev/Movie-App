@@ -5,11 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentProfileBinding
 import com.rpsouza.movieapp.domain.model.menuProfile.MenuProfile
 import com.rpsouza.movieapp.domain.model.menuProfile.MenuProfileType
 import com.rpsouza.movieapp.presenter.main.bottomBar.profile.adapter.ProfileMenuAdapter
+import com.rpsouza.movieapp.utils.animNavigate
 import com.rpsouza.movieapp.utils.initToolbar
 
 class ProfileFragment : Fragment() {
@@ -40,9 +43,15 @@ class ProfileFragment : Fragment() {
             context = requireContext(),
             onClick = { menuProfileType ->
                 when (menuProfileType) {
-                    MenuProfileType.PROFILE -> {}
+                    MenuProfileType.PROFILE -> {
+                        val action = ProfileFragmentDirections.actionMenuProfileToEditProfileFragment()
+                        findNavController().animNavigate(action)
+                    }
                     MenuProfileType.NOTIFICATION -> {}
-                    MenuProfileType.DOWNLOAD -> {}
+                    MenuProfileType.DOWNLOAD -> {
+                        val bottomNavigation = activity?.findViewById<BottomNavigationView>(R.id.bottom_navigation_view)
+                        bottomNavigation?.selectedItemId = R.id.menu_download
+                    }
                     MenuProfileType.SECURITY -> {}
                     MenuProfileType.LANGUAGE -> {}
                     MenuProfileType.DARK_MODE -> {}
