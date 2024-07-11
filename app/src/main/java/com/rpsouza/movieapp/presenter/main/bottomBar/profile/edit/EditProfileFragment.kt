@@ -1,19 +1,31 @@
 package com.rpsouza.movieapp.presenter.main.bottomBar.profile.edit
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import com.bumptech.glide.Glide
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentEditProfileBinding
+import com.rpsouza.movieapp.domain.model.user.User
+import com.rpsouza.movieapp.presenter.main.activity.MainActivity
+import com.rpsouza.movieapp.utils.FirebaseHelper
+import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.showSnackBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class EditProfileFragment : Fragment() {
     private var _binding: FragmentEditProfileBinding? = null
     private val binding get() = _binding!!
+
+    private val editProfileViewModel: EditProfileViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +44,11 @@ class EditProfileFragment : Fragment() {
 
     private fun initListeners() {
         binding.buttonUpdate.setOnClickListener { validateData() }
+
+        Glide
+            .with(requireContext())
+            .load(R.drawable.loading)
+            .into(binding.progressBar)
     }
 
     private fun validateData() {
@@ -68,6 +85,39 @@ class EditProfileFragment : Fragment() {
             return
         }
 
+        val user = User(
+            firstName = firstName,
+            lastName = lastName,
+            email = FirebaseHelper.getAuth().currentUser?.email,
+            phone = phone,
+            gender = gender,
+            country = country
+        )
+
+        updateUser(user)
+    }
+
+    private fun updateUser(user: User) {
+        editProfileViewModel.updateUser(user).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is StateView.Loading -> {
+                    binding.progressBar.isVisible = true
+                    binding.buttonUpdate.isEnabled = false
+                }
+
+                is StateView.Success -> {
+                    showSnackBar(message = R.string.text_update_success_edit_profile_fragment)
+                    binding.progressBar.isVisible = false
+                    binding.buttonUpdate.isEnabled = true
+                }
+
+                is StateView.Error -> {
+                    binding.buttonUpdate.isEnabled = true
+                    binding.progressBar.isVisible = false
+                    showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
