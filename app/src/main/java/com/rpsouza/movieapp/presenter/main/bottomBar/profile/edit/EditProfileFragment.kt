@@ -39,6 +39,7 @@ class EditProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initToolbar(toolbar = binding.toolbar)
+        getUser()
         initListeners()
     }
 
@@ -86,6 +87,7 @@ class EditProfileFragment : Fragment() {
         }
 
         val user = User(
+            id = FirebaseHelper.getUserId(),
             firstName = firstName,
             lastName = lastName,
             email = FirebaseHelper.getAuth().currentUser?.email,
@@ -118,6 +120,39 @@ class EditProfileFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun getUser() {
+        editProfileViewModel.getUser().observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is StateView.Loading -> {
+//                    binding.progressBar.isVisible = true
+//                    binding.buttonUpdate.isEnabled = false
+                }
+
+                is StateView.Success -> {
+                    stateView.data?.let { configData(it) }
+//                    binding.progressBar.isVisible = false
+//                    binding.buttonUpdate.isEnabled = true
+                }
+
+                is StateView.Error -> {
+//                    binding.buttonUpdate.isEnabled = true
+//                    binding.progressBar.isVisible = false
+                    showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
+                }
+            }
+        }
+    }
+
+    private fun configData(user: User) {
+        binding.editFirstName.setText(user.firstName)
+        binding.editLastName.setText(user.lastName)
+        binding.editEmail.setText(user.email)
+        binding.editPhone.setText(user.phone)
+        binding.editGender.setText(user.gender)
+        binding.editCountry.setText(user.country)
+
     }
 
     override fun onDestroy() {

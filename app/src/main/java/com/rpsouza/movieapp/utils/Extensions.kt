@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.inputmethod.InputMethodManager
-import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -13,15 +12,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
-import androidx.navigation.navOptions
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.rpsouza.movieapp.R
+import kotlinx.coroutines.CancellableContinuation
 import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
 
 fun Fragment.initToolbar(
     toolbar: Toolbar,
@@ -52,17 +53,11 @@ fun Fragment.hideKeyboard() {
     }
 }
 
-fun Fragment.showSnackBar(
-    message: Int,
-    duration: Int = Snackbar.LENGTH_LONG
-) {
+fun Fragment.showSnackBar(message: Int, duration: Int = Snackbar.LENGTH_LONG) {
     view?.let { Snackbar.make(it, message, duration).show() }
 }
 
-fun Fragment.showSnackBar(
-    message: String,
-    duration: Int = Snackbar.LENGTH_LONG
-) {
+fun Fragment.showSnackBar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
     view?.let {
         Snackbar.make(it, message, duration).show()
     }
