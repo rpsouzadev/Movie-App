@@ -9,7 +9,9 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rpsouza.movieapp.R
+import com.rpsouza.movieapp.databinding.BottomSheetSelectImageBinding
 import com.rpsouza.movieapp.databinding.FragmentEditProfileBinding
 import com.rpsouza.movieapp.domain.model.user.User
 import com.rpsouza.movieapp.presenter.main.activity.MainActivity
@@ -44,12 +46,19 @@ class EditProfileFragment : Fragment() {
     }
 
     private fun initListeners() {
-        binding.buttonUpdate.setOnClickListener { validateData() }
+        with(binding) {
+            imageEdit.setOnClickListener {
+                openBottomSheetSelectImage()
+            }
 
-        Glide
-            .with(requireContext())
-            .load(R.drawable.loading)
-            .into(binding.progressBar)
+            buttonUpdate.setOnClickListener { validateData() }
+
+            Glide
+                .with(requireContext())
+                .load(R.drawable.loading)
+                .into(progressBar)
+        }
+
     }
 
     private fun validateData() {
@@ -153,6 +162,28 @@ class EditProfileFragment : Fragment() {
         binding.editGender.setText(user.gender)
         binding.editCountry.setText(user.country)
 
+    }
+
+    private fun openBottomSheetSelectImage() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+        val bottomSheetBinding = BottomSheetSelectImageBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+
+        bottomSheetBinding.btnCamera.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            //openCamera()
+        }
+
+        bottomSheetBinding.btnGallery.setOnClickListener {
+            bottomSheetDialog.dismiss()
+            //openGallery()
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
     }
 
     override fun onDestroy() {

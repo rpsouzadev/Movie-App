@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_bottom_sheet"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/ibCamera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_border"
+            android:contentDescription="@string/description_bottom_sheet_photo_camera"
+            android:elevation="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_camera_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/text_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/urbanist_600"
+            android:text="@string/label_bottom_sheet_photo_camera"
+            android:textColor="@color/text_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/ibCamera"
+            app:layout_constraintStart_toEndOf="@+id/ibCamera"
+            app:layout_constraintTop_toTopOf="@+id/ibCamera" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/btnGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <ImageButton
+            android:id="@+id/ibGallery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_border"
+            android:contentDescription="@string/description_bottom_sheet_photo_gallery"
+            android:elevation="4dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_gallery_line"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/text_primary" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:fontFamily="@font/urbanist_600"
+            android:text="@string/label_bottom_sheet_photo_gallery"
+            android:textColor="@color/text_primary"
+            app:layout_constraintBottom_toBottomOf="@+id/ibGallery"
+            app:layout_constraintStart_toEndOf="@+id/ibGallery"
+            app:layout_constraintTop_toTopOf="@+id/ibGallery" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
