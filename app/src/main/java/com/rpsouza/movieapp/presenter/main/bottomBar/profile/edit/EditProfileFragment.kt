@@ -1,20 +1,28 @@
 package com.rpsouza.movieapp.presenter.main.bottomBar.profile.edit
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.rpsouza.movieapp.R
+import com.rpsouza.movieapp.databinding.BottomSheetPermissionDeniedBinding
 import com.rpsouza.movieapp.databinding.BottomSheetSelectImageBinding
 import com.rpsouza.movieapp.databinding.FragmentEditProfileBinding
 import com.rpsouza.movieapp.domain.model.user.User
-import com.rpsouza.movieapp.presenter.main.activity.MainActivity
 import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.hideKeyboard
@@ -28,6 +36,8 @@ class EditProfileFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val editProfileViewModel: EditProfileViewModel by viewModels()
+
+    private val GALLERY_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -179,11 +189,80 @@ class EditProfileFragment : Fragment() {
 
         bottomSheetBinding.btnGallery.setOnClickListener {
             bottomSheetDialog.dismiss()
-            //openGallery()
+            checkGalleryPermission()
         }
 
         bottomSheetDialog.setContentView(bottomSheetBinding.root)
         bottomSheetDialog.show()
+    }
+
+    private fun showBottomSheetPermissionDenied() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialog)
+        val bottomSheetBinding = BottomSheetPermissionDeniedBinding.inflate(
+            layoutInflater,
+            null,
+            false
+        )
+
+        bottomSheetBinding.btnAccept.setOnClickListener {
+            bottomSheetDialog.dismiss()
+
+            val intent = Intent(
+                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", requireContext().packageName, null)
+            )
+            startActivity(intent)
+        }
+
+        bottomSheetBinding.btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.setContentView(bottomSheetBinding.root)
+        bottomSheetDialog.show()
+    }
+
+    private fun checkGalleryPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (checkPermissionGranted(GALLERY_PERMISSION)) {
+                pickImageLauncher.launch("image/*")
+            } else {
+                galleryPermissionLauncher.launch(GALLERY_PERMISSION)
+            }
+        } else {
+            pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        }
+    }
+
+    private fun checkPermissionGranted(permission: String) =
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+
+    private val galleryPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pickImageLauncher.launch("image/*")
+            } else {
+                showBottomSheetPermissionDenied()
+            }
+        }
+
+    private val pickImageLauncher = registerForActivityResult(
+        ActivityResultContracts.GetContent()
+    ) { uri: Uri? ->
+        uri?.let {
+            binding.imageProfile.setImageURI(it)
+        }
+    }
+
+    private val pickMedia = registerForActivityResult(
+        ActivityResultContracts.PickVisualMedia()
+    ) { uri ->
+        uri?.let {
+            binding.imageProfile.setImageURI(it)
+        }
     }
 
     override fun onDestroy() {

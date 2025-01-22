@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <uses-permission
+        android:name="android.permission.READ_MEDIA_IMAGES"
+        android:minSdkVersion="33" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -25,7 +33,7 @@
         <activity
             android:name=".presenter.main.activity.MainActivity"
             android:exported="false"
-            android:theme="@style/Theme.MovieApp"/>
+            android:theme="@style/Theme.MovieApp" />
 
         <meta-data
             android:name="THE_MOVIE_DB_KEY"
