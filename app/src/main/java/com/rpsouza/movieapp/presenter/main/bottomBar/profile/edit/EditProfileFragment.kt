@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import android.view.ViewGroup
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +31,10 @@ import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 @AndroidEntryPoint
 class EditProfileFragment : Fragment() {
@@ -38,6 +44,10 @@ class EditProfileFragment : Fragment() {
     private val editProfileViewModel: EditProfileViewModel by viewModels()
 
     private val GALLERY_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
+    private val CAMERA_PERMISSION = Manifest.permission.CAMERA
+
+    private var currentPhotoPath: String? = null
+    private lateinit var photoUri: Uri
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -184,7 +194,7 @@ class EditProfileFragment : Fragment() {
 
         bottomSheetBinding.btnCamera.setOnClickListener {
             bottomSheetDialog.dismiss()
-            //openCamera()
+            checkCameraPermission()
         }
 
         bottomSheetBinding.btnGallery.setOnClickListener {
@@ -234,16 +244,58 @@ class EditProfileFragment : Fragment() {
         }
     }
 
+    private fun checkCameraPermission() {
+        if (checkPermissionGranted(CAMERA_PERMISSION)) {
+            openCamera()
+        } else {
+            cameraPermissionLauncher.launch(CAMERA_PERMISSION)
+        }
+    }
+
+    private fun openCamera() {
+        val photoFile = createImageFile()
+        photoFile?.let {
+            photoUri = FileProvider.getUriForFile(
+                requireContext(),
+                "${requireContext().packageName}.provider",
+                it
+            )
+            takePictureLauncher.launch(photoUri)
+        }
+    }
+
     private fun checkPermissionGranted(permission: String) =
         ContextCompat.checkSelfPermission(
             requireContext(),
             permission
         ) == PackageManager.PERMISSION_GRANTED
 
+    private fun createImageFile(): File? {
+        val timeStamp: String =
+            SimpleDateFormat("yyyy-MM-dd_HH:mm:ss", Locale.getDefault()).format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        val imageFile = File.createTempFile(
+            "JPEG_${timeStamp}_",
+            ".jpg",
+            storageDir
+        )
+        currentPhotoPath = imageFile.absolutePath
+        return imageFile
+    }
+
     private val galleryPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
             if (isGranted) {
                 pickImageLauncher.launch("image/*")
+            } else {
+                showBottomSheetPermissionDenied()
+            }
+        }
+
+    private val cameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                openCamera()
             } else {
                 showBottomSheetPermissionDenied()
             }
@@ -262,6 +314,14 @@ class EditProfileFragment : Fragment() {
     ) { uri ->
         uri?.let {
             binding.imageProfile.setImageURI(it)
+        }
+    }
+
+    private val takePictureLauncher = registerForActivityResult(
+        ActivityResultContracts.TakePicture()
+    ) { didTakePicture ->
+        if (didTakePicture) {
+            binding.imageProfile.setImageURI(photoUri)
         }
     }
 
