@@ -62,6 +62,7 @@ class EditProfileFragment : Fragment() {
 
         initToolbar(toolbar = binding.toolbar)
         getUser()
+        iniObservers()
         initListeners()
     }
 
@@ -71,7 +72,16 @@ class EditProfileFragment : Fragment() {
                 openBottomSheetSelectImage()
             }
 
-            buttonUpdate.setOnClickListener { validateData() }
+            buttonUpdate.setOnClickListener {
+                editProfileViewModel.validateData(
+                    firstName = editFirstName.text.toString(),
+                    lastName = editLastName.text.toString(),
+                    phone = editPhone.text.toString(),
+                    gender = editGender.text.toString(),
+                    country = editCountry.text.toString()
+                )
+                hideKeyboard()
+            }
 
             Glide
                 .with(requireContext())
@@ -81,54 +91,27 @@ class EditProfileFragment : Fragment() {
 
     }
 
-    private fun validateData() {
-        val firstName = binding.editFirstName.text.toString()
-        val lastName = binding.editLastName.text.toString()
-        val phone = binding.editPhone.text.toString()
-        val gender = binding.editGender.text.toString()
-        val country = binding.editCountry.text.toString()
-
-        hideKeyboard()
-
-        if (firstName.isEmpty()) {
-            showSnackBar(message = R.string.text_first_name_empty_edit_profile_fragment)
-            return
+    private fun iniObservers() {
+        editProfileViewModel.validateData.observe(viewLifecycleOwner) { (validated, message) ->
+            if (!validated) {
+                message?.let { showSnackBar(message = it) }
+            } else {
+                updateUser()
+            }
         }
-
-        if (lastName.isEmpty()) {
-            showSnackBar(message = R.string.text_last_name_empty_edit_profile_fragment)
-            return
-        }
-
-        if (phone.isEmpty()) {
-            showSnackBar(message = R.string.text_phone_empty_edit_profile_fragment)
-            return
-        }
-
-        if (gender.isEmpty()) {
-            showSnackBar(message = R.string.text_gender_empty_edit_profile_fragment)
-            return
-        }
-
-        if (country.isEmpty()) {
-            showSnackBar(message = R.string.text_country_empty_edit_profile_fragment)
-            return
-        }
-
-        val user = User(
-            id = FirebaseHelper.getUserId(),
-            firstName = firstName,
-            lastName = lastName,
-            email = FirebaseHelper.getAuth().currentUser?.email,
-            phone = phone,
-            gender = gender,
-            country = country
-        )
-
-        updateUser(user)
     }
 
-    private fun updateUser(user: User) {
+    private fun updateUser() {
+        val user = User(
+            id = FirebaseHelper.getUserId(),
+            firstName = binding.editFirstName.text.toString(),
+            lastName = binding.editLastName.text.toString(),
+            email = binding.editEmail.text.toString(),
+            phone = binding.editPhone.text.toString(),
+            gender = binding.editGender.text.toString(),
+            country = binding.editCountry.text.toString()
+        )
+
         editProfileViewModel.updateUser(user).observe(viewLifecycleOwner) { stateView ->
             when (stateView) {
                 is StateView.Loading -> {
