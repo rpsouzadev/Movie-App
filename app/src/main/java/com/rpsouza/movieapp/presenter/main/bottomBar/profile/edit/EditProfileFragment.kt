@@ -138,19 +138,16 @@ class EditProfileFragment : Fragment() {
         editProfileViewModel.getUser().observe(viewLifecycleOwner) { stateView ->
             when (stateView) {
                 is StateView.Loading -> {
-//                    binding.progressBar.isVisible = true
-//                    binding.buttonUpdate.isEnabled = false
+                    showLoading(true)
                 }
 
                 is StateView.Success -> {
+                    showLoading(false)
                     stateView.data?.let { configData(it) }
-//                    binding.progressBar.isVisible = false
-//                    binding.buttonUpdate.isEnabled = true
                 }
 
                 is StateView.Error -> {
-//                    binding.buttonUpdate.isEnabled = true
-//                    binding.progressBar.isVisible = false
+                    showLoading(false)
                     showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
                 }
             }
@@ -164,7 +161,6 @@ class EditProfileFragment : Fragment() {
         binding.editPhone.setText(user.phone)
         binding.editGender.setText(user.gender)
         binding.editCountry.setText(user.country)
-
     }
 
     private fun openBottomSheetSelectImage() {
@@ -305,6 +301,19 @@ class EditProfileFragment : Fragment() {
     ) { didTakePicture ->
         if (didTakePicture) {
             binding.imageProfile.setImageURI(photoUri)
+        }
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            Glide
+                .with(requireContext())
+                .load(R.drawable.loading)
+                .into(binding.progressBar)
+
+            binding.progressBar.isVisible = true
+        } else {
+            binding.progressBar.isVisible = false
         }
     }
 
