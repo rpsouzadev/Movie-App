@@ -46,8 +46,9 @@ class EditProfileFragment : Fragment() {
     private val GALLERY_PERMISSION = Manifest.permission.READ_EXTERNAL_STORAGE
     private val CAMERA_PERMISSION = Manifest.permission.CAMERA
 
-    private var currentPhotoPath: String? = null
-    private lateinit var photoUri: Uri
+
+    private var currentPhotoUri: Uri? = null
+    private var user: User? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,17 +97,22 @@ class EditProfileFragment : Fragment() {
             if (!validated) {
                 message?.let { showSnackBar(message = it) }
             } else {
-                updateUser()
+                if (currentPhotoUri != null) {
+                    saveUserImage()
+                } else {
+                    updateUser()
+                }
             }
         }
     }
 
-    private fun updateUser() {
+    private fun updateUser(photoUrl: String? = null) {
         val user = User(
             id = FirebaseHelper.getUserId(),
             firstName = binding.editFirstName.text.toString(),
             lastName = binding.editLastName.text.toString(),
             email = binding.editEmail.text.toString(),
+            photoUrl = photoUrl ?: user?.photoUrl,
             phone = binding.editPhone.text.toString(),
             gender = binding.editGender.text.toString(),
             country = binding.editCountry.text.toString()
@@ -143,7 +149,8 @@ class EditProfileFragment : Fragment() {
 
                 is StateView.Success -> {
                     showLoading(false)
-                    stateView.data?.let { configData(it) }
+                    user = stateView.data
+                    configData()
                 }
 
                 is StateView.Error -> {
@@ -154,13 +161,48 @@ class EditProfileFragment : Fragment() {
         }
     }
 
-    private fun configData(user: User) {
-        binding.editFirstName.setText(user.firstName)
-        binding.editLastName.setText(user.lastName)
-        binding.editEmail.setText(user.email)
-        binding.editPhone.setText(user.phone)
-        binding.editGender.setText(user.gender)
-        binding.editCountry.setText(user.country)
+    private fun saveUserImage() {
+        currentPhotoUri?.let { uri ->
+            editProfileViewModel.saveUserImage(uri).observe(viewLifecycleOwner) { stateView ->
+                when (stateView) {
+                    is StateView.Loading -> {}
+
+                    is StateView.Success -> {
+                        updateUser(photoUrl = stateView.data)
+                    }
+
+                    is StateView.Error -> {
+                        showLoading(false)
+                        showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun configData() {
+        binding.editFirstName.setText(user?.firstName)
+        binding.editLastName.setText(user?.lastName)
+        binding.editEmail.setText(user?.email)
+        binding.editPhone.setText(user?.phone)
+        binding.editGender.setText(user?.gender)
+        binding.editCountry.setText(user?.country)
+
+        binding.tvPhotoEmpty.isVisible = user?.photoUrl.isNullOrEmpty()
+        binding.tvPhotoEmpty.text = getString(
+            R.string.text_photo_empty_edit_profile_fragment,
+            user?.firstName?.first(),
+            user?.lastName?.first()
+        )
+
+        user?.photoUrl?.let { url ->
+            binding.tvPhotoEmpty.isVisible = false
+            binding.imageProfile.isVisible = true
+            Glide
+                .with(requireContext())
+                .load(url)
+                .into(binding.imageProfile)
+        }
     }
 
     private fun openBottomSheetSelectImage() {
@@ -234,12 +276,12 @@ class EditProfileFragment : Fragment() {
     private fun openCamera() {
         val photoFile = createImageFile()
         photoFile?.let {
-            photoUri = FileProvider.getUriForFile(
+            currentPhotoUri = FileProvider.getUriForFile(
                 requireContext(),
                 "${requireContext().packageName}.provider",
                 it
             )
-            takePictureLauncher.launch(photoUri)
+            takePictureLauncher.launch(currentPhotoUri)
         }
     }
 
@@ -258,7 +300,6 @@ class EditProfileFragment : Fragment() {
             ".jpg",
             storageDir
         )
-        currentPhotoPath = imageFile.absolutePath
         return imageFile
     }
 
@@ -284,7 +325,7 @@ class EditProfileFragment : Fragment() {
         ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let {
-            binding.imageProfile.setImageURI(it)
+            updateImageUser(uri = it)
         }
     }
 
@@ -292,7 +333,7 @@ class EditProfileFragment : Fragment() {
         ActivityResultContracts.PickVisualMedia()
     ) { uri ->
         uri?.let {
-            binding.imageProfile.setImageURI(it)
+            updateImageUser(uri = it)
         }
     }
 
@@ -300,8 +341,15 @@ class EditProfileFragment : Fragment() {
         ActivityResultContracts.TakePicture()
     ) { didTakePicture ->
         if (didTakePicture) {
-            binding.imageProfile.setImageURI(photoUri)
+            updateImageUser(uri = currentPhotoUri)
         }
+    }
+
+    private fun updateImageUser(uri: Uri?) {
+        currentPhotoUri = uri
+        binding.imageProfile.setImageURI(uri)
+        binding.tvPhotoEmpty.isVisible = false
+        binding.imageProfile.isVisible = true
     }
 
     private fun showLoading(isLoading: Boolean) {

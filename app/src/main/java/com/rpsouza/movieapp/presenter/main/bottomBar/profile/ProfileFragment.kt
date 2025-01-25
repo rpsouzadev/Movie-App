@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.firebase.auth.FirebaseAuth
@@ -15,16 +18,24 @@ import com.rpsouza.movieapp.databinding.BottomSheetLogoutBinding
 import com.rpsouza.movieapp.databinding.FragmentProfileBinding
 import com.rpsouza.movieapp.domain.model.menuProfile.MenuProfile
 import com.rpsouza.movieapp.domain.model.menuProfile.MenuProfileType
+import com.rpsouza.movieapp.domain.model.user.User
 import com.rpsouza.movieapp.presenter.auth.activity.AuthActivity
 import com.rpsouza.movieapp.presenter.auth.activity.AuthActivity.Companion.AUTHENTICATION_PARAMETER
 import com.rpsouza.movieapp.presenter.auth.enums.AuthenticationDestinations
 import com.rpsouza.movieapp.presenter.main.bottomBar.profile.adapter.ProfileMenuAdapter
+import com.rpsouza.movieapp.utils.FirebaseHelper
+import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.animNavigate
 import com.rpsouza.movieapp.utils.initToolbar
+import com.rpsouza.movieapp.utils.showSnackBar
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
+
+    private val profileViewModel: ProfileViewModel by viewModels()
 
     private lateinit var profileMenuAdapter: ProfileMenuAdapter
 
@@ -40,8 +51,28 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(toolbar = binding.toolbar, showIconNavigation = false)
+        getUser()
         initRecyclerView()
-        configData()
+    }
+
+    private fun getUser() {
+        profileViewModel.getUser().observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is StateView.Loading -> {
+//                    showLoading(true)
+                }
+
+                is StateView.Success -> {
+//                    showLoading(false)
+                    stateView.data?.let { configData(it) }
+                }
+
+                is StateView.Error -> {
+//                    showLoading(false)
+                    showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
+                }
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -80,10 +111,29 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    private fun configData() {
-        binding.imageProfile.setImageResource(R.drawable.person_placeholder)
-        binding.textUsername.text = "Rafael Souza"
-        binding.textEmail.text = "user1@email.com"
+    private fun configData(user: User) {
+        binding.textUsername.text = getString(
+            R.string.text_username_profile_fragment,
+            user.firstName,
+            user.lastName
+        )
+        binding.textEmail.text = user.email
+
+        binding.tvPhotoEmpty.isVisible = user.photoUrl.isNullOrEmpty()
+        binding.tvPhotoEmpty.text = getString(
+            R.string.text_photo_empty_profile_fragment,
+            user.firstName?.first(),
+            user.lastName?.first()
+        )
+
+        user.photoUrl?.let { url ->
+            binding.tvPhotoEmpty.isVisible = false
+            binding.imageProfile.isVisible = true
+            Glide
+                .with(requireContext())
+                .load(url)
+                .into(binding.imageProfile)
+        }
     }
 
     private fun showBottomSheetLogout() {

@@ -104,6 +104,8 @@
     <string name="text_button_confirm_bottom_sheet_delete_download">Sim</string>
 
     <!--    ProfileFragment-->
+    <string name="text_username_profile_fragment">%1$s %2$s</string>
+    <string name="text_photo_empty_profile_fragment">%1$s%2$s</string>
     <string name="text_edit_profile_profile_fragment">Editar perfil</string>
     <string name="text_notificate_profile_fragment">Notificações</string>
     <string name="text_download_profile_fragment">Downloads</string>
@@ -116,6 +118,7 @@
 
     <!--    EditProfileFragment XML-->
     <string name="text_edit_profile_edit_profile_fragment">Editar perfil</string>
+    <string name="text_photo_empty_edit_profile_fragment">%1$s%2$s</string>
     <string name="text_hint_first_name_edit_profile_fragment">Nome</string>
     <string name="text_hint_last_name_edit_profile_fragment">Sobrenome</string>
     <string name="text_hint_email_edit_profile_fragment">Email</string>
