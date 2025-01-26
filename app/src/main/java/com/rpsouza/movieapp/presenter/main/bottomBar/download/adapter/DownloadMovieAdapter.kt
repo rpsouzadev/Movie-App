@@ -49,7 +49,7 @@ class DownloadMovieAdapter(
 
         Glide
             .with(context)
-            .load(movie.posterPath)
+            .load(movie.backdropPath)
             .into(holder.binding.ivMovie)
 
         holder.binding.textMovie.text = movie.title

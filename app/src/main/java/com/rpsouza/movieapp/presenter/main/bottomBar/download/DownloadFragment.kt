@@ -146,7 +146,7 @@ class DownloadFragment : Fragment() {
 
         Glide
             .with(requireContext())
-            .load(movie.posterPath)
+            .load(movie.backdropPath)
             .into(bottomSheetBinding.ivMovie)
 
         bottomSheetBinding.textMovie.text = movie.title

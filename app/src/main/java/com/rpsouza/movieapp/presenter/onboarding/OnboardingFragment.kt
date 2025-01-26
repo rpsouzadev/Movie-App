@@ -9,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.rpsouza.movieapp.R
 import com.rpsouza.movieapp.databinding.FragmentOnboardingBinding
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -26,7 +27,7 @@ class OnboardingFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
+    applyScreenWindowInsets(view = binding.btnStart)
     initListeners()
   }
 

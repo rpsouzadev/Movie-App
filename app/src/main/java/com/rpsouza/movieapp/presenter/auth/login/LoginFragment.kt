@@ -16,6 +16,7 @@ import com.rpsouza.movieapp.presenter.main.activity.MainActivity
 import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.isEmailValid
@@ -39,8 +40,8 @@ class LoginFragment : Fragment() {
 
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-
     initToolbar(binding.toolbar)
+    applyScreenWindowInsets(view = binding.toolbar, applyBottom = false)
     initListeners()
   }
 
