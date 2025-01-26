@@ -26,6 +26,7 @@ import com.rpsouza.movieapp.presenter.main.bottomBar.profile.adapter.ProfileMenu
 import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
@@ -51,6 +52,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(toolbar = binding.toolbar, showIconNavigation = false)
+        applyScreenWindowInsets(view = view, applyBottom = false)
         getUser()
         initRecyclerView()
     }

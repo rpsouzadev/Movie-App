@@ -27,6 +27,7 @@ import com.rpsouza.movieapp.databinding.FragmentEditProfileBinding
 import com.rpsouza.movieapp.domain.model.user.User
 import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import com.rpsouza.movieapp.utils.hideKeyboard
 import com.rpsouza.movieapp.utils.initToolbar
 import com.rpsouza.movieapp.utils.showSnackBar
@@ -60,8 +61,8 @@ class EditProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initToolbar(toolbar = binding.toolbar)
+        applyScreenWindowInsets(view = view)
         getUser()
         iniObservers()
         initListeners()

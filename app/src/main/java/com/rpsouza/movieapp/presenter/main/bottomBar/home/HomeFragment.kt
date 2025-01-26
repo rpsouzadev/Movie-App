@@ -14,6 +14,7 @@ import com.rpsouza.movieapp.databinding.FragmentHomeBinding
 import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.GenreMovieAdapter
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        applyScreenWindowInsets(view = view, applyBottom = false)
         initRecycler()
         initObservers()
     }

@@ -16,6 +16,7 @@ import com.rpsouza.movieapp.presenter.main.bottomBar.home.adapter.MovieAdapter
 import com.rpsouza.movieapp.presenter.main.movieDetails.MovieDetailsViewModel
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyComponentWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,6 +38,7 @@ class SimilarFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyComponentWindowInsets(view = binding.recyclerMovies)
         initRecycler()
         initObservers()
     }

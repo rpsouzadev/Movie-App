@@ -32,7 +32,7 @@ fun MovieResponse.toDomain(): Movie {
         originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
-        posterPath = "https://image.tmdb.org/t/p/w500${this.posterPath}",
+        posterPath = "https://image.tmdb.org/t/p/original${this.posterPath}",
         releaseDate = this.releaseDate,
         title = this.title,
         video = this.video,

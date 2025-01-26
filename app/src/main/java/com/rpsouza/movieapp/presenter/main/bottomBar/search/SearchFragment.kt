@@ -18,6 +18,7 @@ import com.rpsouza.movieapp.databinding.FragmentSearchBinding
 import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.LoadStatePagingAdapter
 import com.rpsouza.movieapp.presenter.main.movieGenre.adapter.MoviePagingAdapter
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import com.rpsouza.movieapp.utils.hideKeyboard
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -42,6 +43,7 @@ class SearchFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyScreenWindowInsets(view = view, applyBottom = false)
         initRecycler()
         initSearchView()
         collectSearchResults()

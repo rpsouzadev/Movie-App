@@ -21,6 +21,7 @@ import com.rpsouza.movieapp.databinding.FragmentDownloadBinding
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.presenter.main.bottomBar.download.adapter.DownloadMovieAdapter
 import com.rpsouza.movieapp.utils.animNavigate
+import com.rpsouza.movieapp.utils.applyScreenWindowInsets
 import com.rpsouza.movieapp.utils.calculateFileSize
 import com.rpsouza.movieapp.utils.calculateMovieTime
 import com.rpsouza.movieapp.utils.initToolbar
@@ -51,6 +52,7 @@ class DownloadFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initToolbar(toolbar = binding.toolbar, showIconNavigation = false)
+        applyScreenWindowInsets(view = view, applyBottom = false)
         initRecycler()
         initObservers()
         getMoviesData()
