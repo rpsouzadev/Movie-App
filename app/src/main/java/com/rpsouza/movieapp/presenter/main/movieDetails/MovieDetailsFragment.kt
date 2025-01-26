@@ -62,6 +62,9 @@ class MovieDetailsFragment : Fragment() {
 
     private fun initListeners() {
         binding.btnDownload.setOnClickListener { showDialogDownload() }
+        binding.imageBookmark.setOnClickListener {
+            // TODO: favoritar o filme
+        }
     }
 
     private fun configTabLayout() {

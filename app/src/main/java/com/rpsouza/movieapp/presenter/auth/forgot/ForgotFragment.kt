@@ -37,7 +37,6 @@ class ForgotFragment : Fragment() {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
     initToolbar(binding.toolbar)
-    applyScreenWindowInsets(view = binding.toolbar)
     initListeners()
   }
 
