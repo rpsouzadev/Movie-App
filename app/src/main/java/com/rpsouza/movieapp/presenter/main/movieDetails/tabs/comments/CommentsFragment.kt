@@ -14,6 +14,7 @@ import com.rpsouza.movieapp.domain.model.review.MovieReview
 import com.rpsouza.movieapp.presenter.main.movieDetails.MovieDetailsViewModel
 import com.rpsouza.movieapp.presenter.main.movieDetails.adapter.CommentAdapter
 import com.rpsouza.movieapp.utils.StateView
+import com.rpsouza.movieapp.utils.applyComponentWindowInsets
 import com.rpsouza.movieapp.utils.formatCommentDate
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,6 +37,7 @@ class CommentsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        applyComponentWindowInsets(view = binding.recyclerComment, applyBottom = false)
         initRecycler()
         initObservers()
     }

@@ -1,7 +1,9 @@
 package com.rpsouza.movieapp.utils
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -10,14 +12,17 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.NavOptions
-import androidx.navigation.navOptions
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.google.android.material.snackbar.Snackbar
 import com.rpsouza.movieapp.R
+import kotlinx.coroutines.CancellableContinuation
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
 
 fun Fragment.initToolbar(
     toolbar: Toolbar,
@@ -48,48 +53,19 @@ fun Fragment.hideKeyboard() {
     }
 }
 
-fun Fragment.showSnackBar(
-    message: Int,
-    duration: Int = Snackbar.LENGTH_LONG
-) {
+fun Fragment.showSnackBar(message: Int, duration: Int = Snackbar.LENGTH_LONG) {
     view?.let { Snackbar.make(it, message, duration).show() }
+}
+
+fun Fragment.showSnackBar(message: String, duration: Int = Snackbar.LENGTH_LONG) {
+    view?.let {
+        Snackbar.make(it, message, duration).show()
+    }
 }
 
 fun String.isEmailValid(): Boolean {
     val emailPattern = Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")
     return emailPattern.matches(this)
-}
-
-fun formatCommentDate(date: String?): String {
-    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
-    val providedDate = date?.let { dateFormat.parse(it) }
-    val currentDate = Date()
-
-    val calendarProvided = Calendar.getInstance()
-    val calendarCurrent = Calendar.getInstance()
-    providedDate?.let { calendarProvided.time = it }
-    calendarCurrent.time = currentDate
-
-    val yearDifference = calendarCurrent.get(Calendar.YEAR) - calendarProvided.get(Calendar.YEAR)
-    val monthDifference = calendarCurrent.get(Calendar.MONTH) - calendarProvided.get(Calendar.MONTH)
-    val dayDifference =
-        calendarCurrent.get(Calendar.DAY_OF_MONTH) - calendarProvided.get(Calendar.DAY_OF_MONTH)
-
-    val totalDaysDifference = yearDifference * 365 + monthDifference * 30 + dayDifference
-
-    return when {
-        totalDaysDifference == 0 -> "Hoje"
-        totalDaysDifference == 1 -> "Ontem"
-        totalDaysDifference < 31 -> "$totalDaysDifference dias atrás"
-        else -> {
-            val monthsDifference = totalDaysDifference / 30
-            if (monthsDifference == 1) {
-                "1 mês atrás"
-            } else {
-                "$monthsDifference meses atrás"
-            }
-        }
-    }
 }
 
 fun Double.calculateFileSize(): String {
@@ -145,4 +121,13 @@ fun NavController.animNavigate(action: NavDirections) {
             .setPopEnterAnim(R.anim.pop_enter)
             .build()
     )
+}
+
+inline fun <reified T : Serializable> Intent.getSerializableCompat(key: String): T? = when {
+    Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> getSerializableExtra(
+        key,
+        T::class.java
+    )
+
+    else -> @Suppress("DEPRECATION") getSerializableExtra(key) as? T
 }

@@ -32,7 +32,7 @@ fun MovieResponse.toDomain(): Movie {
         originalTitle = this.originalTitle,
         overview = this.overview,
         popularity = this.popularity,
-        posterPath = "https://image.tmdb.org/t/p/w500${this.posterPath}",
+        posterPath = "https://image.tmdb.org/t/p/original${this.posterPath}",
         releaseDate = this.releaseDate,
         title = this.title,
         video = this.video,
@@ -90,7 +90,7 @@ fun Movie.toEntity(): MovieEntity {
     return MovieEntity(
         id = this.id,
         title = this.title,
-        poster = this.posterPath,
+        backdropPath = this.backdropPath,
         runtime = this.runtime,
         insertion = System.currentTimeMillis()
     )
@@ -100,7 +100,7 @@ fun MovieEntity.toDomain(): Movie {
     return Movie(
         id = this.id,
         title = this.title,
-        posterPath = this.poster,
+        backdropPath = this.backdropPath,
         runtime = this.runtime,
     )
 }

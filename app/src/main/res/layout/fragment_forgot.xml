@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:fillViewport="true"
     android:scrollbarThumbVertical="@null"
+    android:fitsSystemWindows="true"
     tools:context=".presenter.auth.forgot.ForgotFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout

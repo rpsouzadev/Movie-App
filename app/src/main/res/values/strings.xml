@@ -97,11 +97,63 @@
     <string name="text_downloaded_size_dialog_downloading">%1$s / %2$s</string>
     <string name="text_download_progress_dialog_downloading">%1$d%%</string>
 
-    <!--    BottomSheet-->
+    <!--    BottomSheetDelete-->
     <string name="text_title_bottom_sheet_delete_download">Deletar</string>
     <string name="text_message_bottom_sheet_delete_download">Tem certeza de que deseja excluir o download deste filme?</string>
     <string name="text_button_cancel_bottom_sheet_delete_download">Não</string>
     <string name="text_button_confirm_bottom_sheet_delete_download">Sim</string>
+
+    <!--    ProfileFragment-->
+    <string name="text_username_profile_fragment">%1$s %2$s</string>
+    <string name="text_photo_empty_profile_fragment">%1$s%2$s</string>
+    <string name="text_edit_profile_profile_fragment">Editar perfil</string>
+    <string name="text_notificate_profile_fragment">Notificações</string>
+    <string name="text_download_profile_fragment">Downloads</string>
+    <string name="text_security_profile_fragment">Segurança</string>
+    <string name="text_language_profile_fragment">Idioma</string>
+    <string name="text_dark_mode_profile_fragment">Modo escuro</string>
+    <string name="text_helper_center_profile_fragment">Centro de ajuda</string>
+    <string name="text_privacy_policy_profile_fragment">Política de privacidade</string>
+    <string name="text_logout_profile_fragment">Sair</string>
+
+    <!--    EditProfileFragment XML-->
+    <string name="text_edit_profile_edit_profile_fragment">Editar perfil</string>
+    <string name="text_photo_empty_edit_profile_fragment">%1$s%2$s</string>
+    <string name="text_hint_first_name_edit_profile_fragment">Nome</string>
+    <string name="text_hint_last_name_edit_profile_fragment">Sobrenome</string>
+    <string name="text_hint_email_edit_profile_fragment">Email</string>
+    <string name="text_hint_phone_edit_profile_fragment">Telefone</string>
+    <string name="text_hint_gender_edit_profile_fragment">Gênero</string>
+    <string name="text_hint_country_edit_profile_fragment">País</string>
+    <string name="text_button_save_edit_profile_fragment">Atualizar</string>
+
+    <!--    EditProfileFragment-->
+    <string name="text_first_name_empty_edit_profile_fragment">Digite seu nome</string>
+    <string name="text_last_name_empty_edit_profile_fragment">Digite seu sobrenome</string>
+    <string name="text_phone_empty_edit_profile_fragment">Digite seu telefone</string>
+    <string name="text_phone_invalid_edit_profile_fragment">Digite um telefone válido</string>
+    <string name="text_gender_empty_edit_profile_fragment">Digite seu gênero</string>
+    <string name="text_country_empty_edit_profile_fragment">Digite seu país</string>
+    <string name="text_email_invalid_edit_profile_fragment">Digite um e-mail válido</string>
+    <string name="text_update_success_edit_profile_fragment">Perfil atualizado com sucesso!</string>"
+
+    <!--    BottomSheetLogout-->
+    <string name="text_title_bottom_sheet_logout">Sair</string>
+    <string name="text_message_bottom_sheet_logout">Tem certeza de que deseja sair?</string>
+    <string name="text_button_cancel_bottom_sheet_logout">Não</string>
+    <string name="text_button_confirm_bottom_sheet_logout">Sim</string>
+
+    <!--    BottomSheetPhoto-->
+    <string name="label_bottom_sheet_photo_camera">Tirar foto</string>
+    <string name="description_bottom_sheet_photo_camera">Camera</string>
+    <string name="label_bottom_sheet_photo_gallery">Escolher foto</string>
+    <string name="description_bottom_sheet_photo_gallery">Galeria</string>
+
+    <!--    BottomSheetPermissionDenied-->
+    <string name="text_title_bottom_sheet_permission_denied">Permissão negada</string>
+    <string name="text_message_bottom_sheet_permission_denied">Para acessar este recurso, você precisa aceitar a permissão.</string>
+    <string name="text_cancel_button_bottom_sheet_permission_denied">Cancelar</string>
+    <string name="text_confirm_button_bottom_sheet_permission_denied">Aceitar</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
