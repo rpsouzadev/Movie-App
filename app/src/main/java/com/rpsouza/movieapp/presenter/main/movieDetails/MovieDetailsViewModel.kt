@@ -8,6 +8,7 @@ import com.rpsouza.movieapp.domain.local.usecase.InsertMovieLocalUseCase
 import com.rpsouza.movieapp.domain.model.favorite.FavoriteMovie
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.remote.usecase.cast.GetCreditsUseCase
+import com.rpsouza.movieapp.domain.remote.usecase.favorite.GetFavoritesUseCase
 import com.rpsouza.movieapp.domain.remote.usecase.favorite.SaveFavoritesUseCase
 import com.rpsouza.movieapp.domain.remote.usecase.movie.GetMovieDetailsUseCase
 import com.rpsouza.movieapp.utils.StateView
@@ -21,7 +22,8 @@ class MovieDetailsViewModel @Inject constructor(
     private val getMovieDetailsUseCase: GetMovieDetailsUseCase,
     private val getCreditsUseCase: GetCreditsUseCase,
     private val insertMovieLocalUseCase: InsertMovieLocalUseCase,
-    private val saveFavoritesUseCase: SaveFavoritesUseCase
+    private val saveFavoritesUseCase: SaveFavoritesUseCase,
+    private val getFavoritesUseCase: GetFavoritesUseCase
 ) : ViewModel() {
 
     private val _movieId = MutableLiveData(0)
@@ -74,6 +76,19 @@ class MovieDetailsViewModel @Inject constructor(
 
     fun setMovieId(movieId: Int) {
         _movieId.value = movieId
+    }
+
+    fun getFavorites() = liveData(Dispatchers.IO) {
+        try {
+            emit(StateView.Loading())
+
+            val favorites = getFavoritesUseCase()
+
+            emit(StateView.Success(favorites))
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+            emit(StateView.Error(message = ex.message))
+        }
     }
 
     fun saveFavorites(favorites: List<FavoriteMovie>) = liveData(Dispatchers.IO) {

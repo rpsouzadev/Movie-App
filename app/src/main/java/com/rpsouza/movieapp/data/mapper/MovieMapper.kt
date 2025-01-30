@@ -116,3 +116,14 @@ fun Movie.toFavoriteMovie(): FavoriteMovie {
         voteAverage = String.format(Locale.ROOT, "%.1f", this.voteAverage)
     )
 }
+
+fun FavoriteMovie.toMovie(): Movie {
+    return Movie(
+        id = this.id,
+        title = this.title,
+        backdropPath = this.backdropPath,
+        posterPath = this.backdropPath,
+        genres = this.genres,
+        voteAverage = this.voteAverage?.toFloat()
+    )
+}

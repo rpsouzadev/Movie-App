@@ -3,6 +3,7 @@ package com.rpsouza.movieapp.presenter.main.movieDetails
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -61,6 +62,7 @@ class MovieDetailsFragment : Fragment() {
         initToolbar(toolbar = binding.toolbar, lightIcon = true)
         initRecyclerCast()
         getMovieDetails()
+        getFavoritesList()
         configTabLayout()
         initListeners()
     }
@@ -68,8 +70,8 @@ class MovieDetailsFragment : Fragment() {
     private fun initListeners() {
         binding.btnDownload.setOnClickListener { showDialogDownload() }
         binding.imageBookmark.setOnClickListener {
-            if (favoriteList.contains(movie.toFavoriteMovie())) {
-                favoriteList.remove(movie.toFavoriteMovie())
+            if (favoriteList.any { it.id == args.movieId }) {
+                favoriteList.removeIf { it.id == args.movieId }
                 binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_line)
             } else {
                 favoriteList.add(movie.toFavoriteMovie())
@@ -152,6 +154,28 @@ class MovieDetailsFragment : Fragment() {
                     }
                 }
         }
+    }
+
+    private fun getFavoritesList() {
+        movieDetailsViewModel.getFavorites()
+            .observe(viewLifecycleOwner) { stateView ->
+                when (stateView) {
+                    is StateView.Loading -> {
+                    }
+
+                    is StateView.Success -> {
+                        stateView.data?.let { list ->
+                            favoriteList.addAll(list)
+                            if (favoriteList.any { it.id == args.movieId }) {
+                                binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+                            }
+                        }
+                    }
+
+                    is StateView.Error -> {
+                    }
+                }
+            }
     }
 
     private fun saveFavorites() {
