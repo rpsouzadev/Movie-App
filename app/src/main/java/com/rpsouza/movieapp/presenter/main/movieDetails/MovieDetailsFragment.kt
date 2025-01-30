@@ -14,19 +14,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.tabs.TabLayoutMediator
 import com.rpsouza.movieapp.R
+import com.rpsouza.movieapp.data.mapper.toFavoriteMovie
 import com.rpsouza.movieapp.databinding.DialogDownloadBinding
 import com.rpsouza.movieapp.databinding.FragmentMovieDetailsBinding
+import com.rpsouza.movieapp.domain.model.favorite.FavoriteMovie
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.presenter.main.movieDetails.adapter.CastAdapter
 import com.rpsouza.movieapp.presenter.main.movieDetails.adapter.ViewPagerAdapter
 import com.rpsouza.movieapp.presenter.main.movieDetails.tabs.comments.CommentsFragment
 import com.rpsouza.movieapp.presenter.main.movieDetails.tabs.similar.SimilarFragment
 import com.rpsouza.movieapp.presenter.main.movieDetails.tabs.trailers.TrailersFragment
+import com.rpsouza.movieapp.utils.FirebaseHelper
 import com.rpsouza.movieapp.utils.FormatDate
 import com.rpsouza.movieapp.utils.StateView
 import com.rpsouza.movieapp.utils.ViewPager2ViewHeightAnimator
 import com.rpsouza.movieapp.utils.calculateFileSize
 import com.rpsouza.movieapp.utils.initToolbar
+import com.rpsouza.movieapp.utils.showSnackBar
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
@@ -41,6 +45,7 @@ class MovieDetailsFragment : Fragment() {
     private lateinit var dialogDownload: AlertDialog
 
     private lateinit var movie: Movie
+    private val favoriteList: MutableList<FavoriteMovie> = mutableListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +68,15 @@ class MovieDetailsFragment : Fragment() {
     private fun initListeners() {
         binding.btnDownload.setOnClickListener { showDialogDownload() }
         binding.imageBookmark.setOnClickListener {
-            // TODO: favoritar o filme
+            if (favoriteList.contains(movie.toFavoriteMovie())) {
+                favoriteList.remove(movie.toFavoriteMovie())
+                binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_line)
+            } else {
+                favoriteList.add(movie.toFavoriteMovie())
+                binding.imageBookmark.setImageResource(R.drawable.ic_bookmark_fill)
+            }
+
+            saveFavorites()
         }
     }
 
@@ -138,6 +151,22 @@ class MovieDetailsFragment : Fragment() {
                         }
                     }
                 }
+        }
+    }
+
+    private fun saveFavorites() {
+        movieDetailsViewModel.saveFavorites(favoriteList).observe(viewLifecycleOwner) { stateView ->
+            when (stateView) {
+                is StateView.Loading -> {}
+
+                is StateView.Success -> {
+
+                }
+
+                is StateView.Error -> {
+                    showSnackBar(message = FirebaseHelper.validError(stateView.message ?: ""))
+                }
+            }
         }
     }
 

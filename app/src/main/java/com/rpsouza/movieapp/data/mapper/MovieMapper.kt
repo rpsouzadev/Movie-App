@@ -8,12 +8,14 @@ import com.rpsouza.movieapp.data.remote.model.movie.MovieResponse
 import com.rpsouza.movieapp.data.remote.model.review.AuthorDetailsResponse
 import com.rpsouza.movieapp.data.remote.model.review.MovieReviewResponse
 import com.rpsouza.movieapp.domain.model.cast.Cast
+import com.rpsouza.movieapp.domain.model.favorite.FavoriteMovie
 import com.rpsouza.movieapp.domain.model.gener.Genre
 import com.rpsouza.movieapp.domain.model.movie.Country
 import com.rpsouza.movieapp.domain.model.movie.Movie
 import com.rpsouza.movieapp.domain.model.review.AuthorDetails
 import com.rpsouza.movieapp.domain.model.review.MovieReview
 import com.rpsouza.movieapp.presenter.model.MoviesByGenre
+import java.util.Locale
 
 fun GenreResponse.toDomain(): Genre {
     return Genre(
@@ -102,5 +104,15 @@ fun MovieEntity.toDomain(): Movie {
         title = this.title,
         backdropPath = this.backdropPath,
         runtime = this.runtime,
+    )
+}
+
+fun Movie.toFavoriteMovie(): FavoriteMovie {
+    return FavoriteMovie(
+        id = this.id,
+        title = this.title,
+        backdropPath = this.backdropPath,
+        genres = this.genres,
+        voteAverage = String.format(Locale.ROOT, "%.1f", this.voteAverage)
     )
 }
